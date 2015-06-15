@@ -16,17 +16,17 @@
 <div style="padding:20px 50px">
 	<select id="dbsel">
 		<option value="Dev">DEV</option>
-		<option value="prod">PRODUCTION</option>
-        <option value="US">US</option>
+		<option value="prod">gbs-cosmos-prod</option>
+       <option value="US">gbs-cosmos-us</option>
 	</select>
 	<input type="button" value="Switch DB" onclick="switchdb()" />
 	<script type="text/javascript">
-		$if connstr.lower()=='mssdtgpdb01' or connstr.lower() == 'gbs-cosmos-prod':
-			$$('#dbsel').val('production')
+		$if connstr.lower() == 'gbs-cosmos-prod':
+			$$('#dbsel').val('prod')
 		$if connstr.lower() == 'gbs-cosmos-us':
-		    $$('#dbsel').val('us')
+		    $$('#dbsel').val('US')
 		$else:
-			$$('#dbsel').val('dev')
+			$$('#dbsel').val('Dev')
 
 
 	</script>

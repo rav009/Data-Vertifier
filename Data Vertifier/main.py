@@ -32,7 +32,7 @@ def GetCurrentDBName(connstr):
 connstr_d = 'Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
 connstr_p = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
 connstr_us = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
-current_connstr = connstr_d
+current_connstr = connstr_us
 render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
 render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
 
