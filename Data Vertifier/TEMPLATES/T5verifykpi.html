@@ -1,0 +1,150 @@
+$def with (kpis)
+<title>KPI Values Verify</title>
+<style>
+    select,input{
+        margin:3px 1px;
+    }
+    td{
+        width:103px;
+    }
+    h4{
+        margin:0px 0px;
+    }
+</style>
+<script>
+    function setselectid(name, obj){
+        document.getElementsByName(name)[0].value=obj.value
+    }
+</script>
+<script>
+    function refreshkpi(){
+        $$("#kpitable").html("")
+        url = '/verifykpijson/?type=T5&dashboard='+$$("input[name='dashboard']").val()+'&fiscaltime='+$$("input[name='fiscaltime']").val()+'&geography='+$$("input[name='geography']").val()+'&product='+$$("input[name='product']").val()+'&deliverysite='+$$("input[name='deliverysite']").val()+'&team='+$$("input[name='team']").val()
+        $$.get(url, function(result){
+            os=eval(result);
+            p = "<tr>"
+            p+="<td><h4>KPI ID</h4></td>"
+            p+="<td style=\"width:360px;\"><h4>KPIname</h4></td>"
+            p+="<td><h4>displaytype</h4></td>"
+            p+="<td><h4>Baselinetype</h4></td>"
+            p+="<td><h4>statustype</h4></td>"
+            p+="<td><h4>Baseline</h4></td>"
+            p+="<td><h4>MTD target</h4></td>"
+            p+="<td><h4>MTD</h4></td>"
+            p+="<td><h4>MTD status</h4></td>"
+            p+="<td><h4>YTD target</h4></td>"
+            p+="<td><h4>YTD</h4></td>"
+            p+="<td><h4>YTD status</h4></td>"
+            p+="</tr>"
+            for(var i=0;i<os.length;i++){
+                p += "<tr>"
+                p += "<td>"+os[i]["kpiid"]+"</td>"
+                p += "<td style='width:360px;'>"+os[i]["kpiname"]+"</td>"
+                p += "<td>"+os[i]["displaytype"]+"</td>"
+                p += "<td>"+os[i]["baselinetype"]+"</td>"
+                p += "<td>"+os[i]["statustype"]+"</td>"
+                p += "<td>"+os[i]["baseline"]+"</td>"
+                p += "<td>"+os[i]["mtdtarget"]+"</td>"
+                p += "<td>"+os[i]["mtd"]+"</td>"
+                p += "<td>"+os[i]["mtdstatus"]+"</td>"
+                p += "<td>"+os[i]["ytdtarget"]+"</td>"
+                p += "<td>"+os[i]["ytd"]+"</td>"
+                p += "<td>"+os[i]["ytdstatus"]+"</td>"
+                p += "</tr>"
+            }
+            $$("#kpitable").html(p)
+        })
+    }
+</script>
+<form action="/verifykpi/t5" method="post">
+Please input dashboard ID:
+<input name="dashboard" type="text" value="51" />
+<select name="dashboard_sel" onchange="setselectid('dashboard', this)">
+    <option value="51">End To End/Advisory</option>
+    <option value="52">TPAS MPN/Program</option>
+    <option value="53">Assisted Support</option>
+</select>
+<br />
+Please input fiscaltime ID:
+<input name="fiscaltime" value="32" />
+<select name="fiscaltime_sel" onchange="setselectid('fiscaltime', this)">
+    <option value="32" selected="selected">FY14FM08 FY14Feb</option>
+    <option value="25">FY14FM01 FY14Jul</option>
+    <option value="33">FY14FM09 FY14Mar</option>
+    <option value="34">FY14FM10 FY14Apr</option>
+    <option value="35">FY14FM11 FY14May</option>
+    <option value="36">FY14FM12 FY14Jun</option>
+	<option value="37">FY15FM01 FY15Jan</option>
+</select>
+<br />
+Please input geography ID:
+<input name="geography" type="text" value="1000000" />
+<select name="geography_sel" onchange="setselectid('geography', this)">
+    <option value="1000000">WorldWide</option>
+    <option value="1030000">ASIA</option>
+    <option value="1010100">NA</option>
+    <option value="1010200">LATAM</option>
+    <option value="1020000">EMEA</option>
+</select>
+<br />
+Please input product ID:
+<input name="product" type="text" value="10000" />
+<select name="product_sel" onchange="setselectid('product', this)">
+    <option value="10000">ALL</option>
+    <option value="10100">STB</option>
+    <option value="10200">MOD</option>
+    <option value="10400">STB/MOD</option>
+</select>
+<br />
+Please input deliverysite ID:
+<input name="deliverysite" type="text" value="1" />
+<select name="deliverysite_sel" onchange="setselectid('deliverysite', this)">
+    <option value="1">WorldWide</option>
+    <option value="17">ASIA</option>
+    <option value="22">NA</option>
+    <option value="3">LATAM</option>
+    <option value="18">EMEA</option>
+</select>
+<br />
+Please input team ID:
+<input name="team" type="text" value="12" />
+<select name="team_sel" onchange="setselectid('team', this)">
+    <option value="12">ALL</option>
+    <option value="11">ADV</option>
+    <option value="13">LP</option>
+</select>
+<br />
+<input type="submit" value="submit" />
+</form>
+
+<table>
+    <tr>
+        <td><h4>KPI ID</h4></td>
+        <td style="width:360px;"><h4>KPIname</h4></td>
+        <td><h4>displaytype</h4></td>
+        <td><h4>Baselinetype</h4></td>
+        <td><h4>statustype</h4></td>
+        <td><h4>Baseline</h4></td>
+        <td><h4>MTD target</h4></td>
+        <td><h4>MTD</h4></td>
+        <td><h4>MTD status</h4></td>
+        <td><h4>YTD target</h4></td>
+        <td><h4>YTD</h4></td>
+        <td><h4>YTD status</h4></td>
+    </tr>
+    $for k in kpis:
+        <tr>
+        <td>$k.kpiid</td>
+        <td>$k.kpiname</td>
+        <td>$k.displaytype</td>
+        <td>$k.baselinetype</td>
+        <td>$k.statustype</td>
+        <td>$k.baseline</td>
+        <td>$k.mtdtarget</td>
+        <td>$k.mtd</td>
+        <td>$k.mtdstatus</td>
+        <td>$k.ytdtarget</td>
+        <td>$k.ytd</td>
+        <td>$k.ytdstatus</td>
+        </tr>
+</table>

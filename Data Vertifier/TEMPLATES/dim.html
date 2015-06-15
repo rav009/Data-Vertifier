@@ -1,0 +1,108 @@
+$def with (geos, products, deliverysites, teams, times, ps, fun, pcg)
+<title>Dim Snapshot</title>
+<style>
+    td
+    {
+        min-width:80px
+    }
+    div{
+        height:600px;
+        overflow-y:scroll;
+        margin:10px 10px;
+        float:left;
+		 width:350px;
+    }
+
+</style>
+
+<div>
+    FiscalTime Dimension
+    <table>
+    $for g in times:
+        <tr>
+            <td>$g[0]</td>
+            <td>$g[1]</td>
+            <td>$g[2]</td>
+        </tr>
+</table>
+</div>
+
+<div>
+    Geograpy Dimension([FullName],[DisplayHierachy])
+    <table>
+    $for g in geos:
+        <tr>
+            <td>$g[0]</td>
+            <td>$g[1]</td>
+            <td>$g[2]</td>
+        </tr>
+</table>
+</div>
+
+<div>
+    Products Dimension([ProductName]):
+    <table>
+    $for p in products:
+        <tr>
+            <td>$p[0]</td>
+            <td>$p[1]</td>
+        </tr>
+</table>
+</div>
+
+<div>
+    DeliverySite Dimension([DeliverySiteName]):
+    <table>
+    $for d in deliverysites:
+        <tr>
+            <td>$d[0]</td>
+            <td>$d[1]</td>
+        </tr>
+</table>
+</div>
+
+<div>
+    Team Dimension([Name]):
+    <table>
+    $for t in teams:
+        <tr>
+            <td>$t[0]</td>
+            <td>$t[1]</td>
+        </tr>
+</table>
+</div>
+
+<div>
+    Public Sector Dimension([PublicSectorName]):
+    <table>
+    $for p in ps:
+        <tr>
+            <td>$p[0]</td>
+            <td>$p[1]</td>
+        </tr>
+</table>
+</div>
+
+
+<div>
+Function Dimension([Name]):
+    <table>
+    $for f in fun:
+        <tr>
+            <td>$f[0]</td>
+            <td>$f[1]</td>
+        </tr>
+</table>
+</div>
+
+
+<div>
+PCGeography Dimension([Name]):
+    <table>
+    $for g in pcg:
+        <tr>
+            <td>$g[0]</td>
+            <td>$g[1]</td>
+        </tr>
+</table>
+</div>

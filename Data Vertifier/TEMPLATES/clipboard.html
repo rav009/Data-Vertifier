@@ -1,0 +1,33 @@
+$def with (content)
+<title>Clipboard</title>
+
+<style>
+	td{
+		width:200px;
+	}
+
+	input{
+		margin: 4px  0px 4px 0px;
+	}
+</style>
+<div style="height:140px">
+	<form action="/clipboard/" method="post">
+		<textarea name="content" cols="150" rows="7"></textarea>  
+		<br />
+		<input type="submit" value="Submit" />
+	</form>
+</div>
+
+<div>
+	<table style="border:1px solid gray">
+	$for i,c in enumerate(content):
+		$if i%2==0:
+			<tr>
+				<td style='width:1000px'>$c</td>
+			</tr>
+		$else:
+			<tr style="background-color:lightblue">
+				<td style='width:1000px'>$c</td>
+			</tr>
+	</table>
+</div>

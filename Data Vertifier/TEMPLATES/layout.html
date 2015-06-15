@@ -1,0 +1,29 @@
+$def with (content)
+<html>
+
+<body>
+
+<script src="../static/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$$.ajaxSetup({cache:false})
+</script>
+
+<a href="../index" target="view_window">BACK</a>
+<br />
+<h4 id="cdb" style="display:inline;margin:0px 10px 0px 0px">Current DB is $connstr</h4>
+<input type="button" value="refresh" onclick="refreshcdb()"/>
+<script>
+    function refreshcdb(){
+        $$.get('/switchdb/',function(s){
+            var h4str='Current DB is '+s
+            if(h4str!=$$('#cdb').html())
+            {
+                $$('#cdb').html('Current DB is '+s)
+                alert('Database is switched to '+s)
+            }
+        })
+    }
+</script>
+$:content
+</body>
+</html>

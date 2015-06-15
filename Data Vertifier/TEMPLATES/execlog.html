@@ -1,0 +1,48 @@
+$def with (logs)
+<title>ExecLog Snapshot</title>
+<form action="/execlog/" method="post">
+Please input top number:<input name="top" type="text" value='300' />
+<br />
+View all logs:
+<input type="checkbox" name="ifalllog" checked="checked" />
+<br />
+
+<input type="submit" value="Submit"/>
+</form>
+<br />
+<style>
+td
+{
+     width:80px
+}
+h4{
+     margin:0px 0px 0px 0px;
+}
+</style>
+<table>
+<tr>
+    <td><h4>KPI ID</h4></td>
+    <td><h4>Querypart</h4></td>
+    <td><h4>DatasourceID</h4></td>
+    <td><h4>ExecDate     </h4></td>
+    <td><h4>FY</h4></td>
+    <td><h4>FM</h4></td>
+    <td style="width:200px"><h4>Exec Date</h4></td>
+    <td style="width:1000px"><h4>Remark</h4></td>
+</tr>
+
+$for l in logs:
+        <tr>
+        <td>$l.kpiid</td>
+        <td>$l.querypart</td>
+        <td>$l.datasourceid</td>
+        $if l.execstatus == 'Successed':
+            <td style="color:blue">$l.execstatus</td>
+        $else:
+            <td style="color:red">$l.execstatus</td>
+        <td>$l.fiscalyear</td>
+        <td>$l.fiscalmonth</td>
+        <td style="width:200px">$l.execdate_str</td>
+        <td style="width:1000px">$l.remark</td>
+        </tr>
+</table>

@@ -1,0 +1,21 @@
+$def with (qs)
+<title>Mdx Query Generator</title>
+<form action="/mdxquery/" method="post">
+Please input KPI ID:<input name="kpiid" type="text" />
+<br />
+Please select Query Item:
+<select name="queryitem">
+    <option value="MTD">MTD</option>
+    <option value="YTD">YTD</option>
+    <option value="Baseline">Baseline</option>
+</select>
+<br />
+<input type="submit" value="Submit"/>
+</form>
+<br />
+$for q in qs:
+    KPI ID:<b>$q.kpiid</b>
+    DataSource ID:<b>$q.datasourceid</b>
+    Part:<b>$q.part</b>
+    <textarea style="width:1500px;height:600px">$q.query</textarea>
+    <br />

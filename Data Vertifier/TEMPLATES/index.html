@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to Data Verifier</title>
+ <style>
+    a
+    {
+        margin-top:15px;
+        display:block
+    }
+ </style>
+	<script src="../static/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div style="padding:20px 50px">
+	<select id="dbsel">
+		<option value="Dev">DEV</option>
+		<option value="prod">PRODUCTION</option>
+        <option value="US">US</option>
+	</select>
+	<input type="button" value="Switch DB" onclick="switchdb()" />
+	<script type="text/javascript">
+		$if connstr.lower()=='mssdtgpdb01' or connstr.lower() == 'gbs-cosmos-prod':
+			$$('#dbsel').val('production')
+		$if connstr.lower() == 'gbs-cosmos-us':
+		    $$('#dbsel').val('us')
+		$else:
+			$$('#dbsel').val('dev')
+
+
+	</script>
+
+	<script type="text/javascript">
+
+		$$.ajaxSetup({cache:false});
+
+        function get_full_increment_mode(){
+		    var u = '/getfimode/'
+		    $$.get(u, function(rs){
+		    	//alert(rs)
+				$$('#full_increment').html(rs)
+			})
+		}
+
+		function switchdb(){
+			var d = $$('#dbsel').val()
+			var u = '/switchdb/'
+			$$.post(u, {'db':d}, function(rs){
+				alert(rs)
+			})
+			get_full_increment_mode()
+		}
+
+		
+	</script>
+
+    <br /><br />
+    <div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline">No Mode Info!</div>
+    <input type="button" value="Refresh" onclick="get_full_increment_mode()" />
+
+    <a href="/execlog/" target="view_window">Mdx KPI Browse Logs</a>
+
+    <a href="/mdxquery/" target="view_window">Generate MDX Query</a>
+
+    <a href="/dim/" target="view_window">Dim ID List</a>
+
+    <!--<a href="/verifykpi/T5">T5 Verify KPI Values</a>-->
+
+    <a href="/verifykpi/T4" target="view_window">T4 Verify KPI Values</a>
+
+    <a href="/verifykpi/T4" target="view_window">DeliveryExcellence Verify KPI Values</a>
+
+	<a href="/addnode/" target="view_window">Add New Hierarchy Node</a>
+
+	<a href="/clipboard/" target="view_window">Clipboard</a>
+</div>
+
+<script type="text/javascript">get_full_increment_mode()</script>
+
+</body>
+</html>

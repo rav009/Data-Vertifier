@@ -1,0 +1,35 @@
+$def with (root, nodepath, nodesfamily)
+<title>Add Node</title>
+<style>
+	td{
+		width:200px;
+	}
+
+	input{
+		margin: 4px  0px 4px 0px;
+	}
+</style>
+<div style="height:140px">
+	<form action="/addnode/?action=getnewid" method="post">
+		Root Node:<input name="root" type="text" value="$root" />
+		<br />
+		Hierarchy Path:<input name="nodepath" type="text" value="$nodepath" style="width:400px"/>
+		<br />
+		<input type="submit" value="Get New Node's ID" />
+	</form>
+</div>
+
+<div>
+
+		<table>
+		$for n in nodesfamily:
+			<tr>
+			$if n[2] == 0:
+				<td>$n[0]</td><td style="width:160px">$n[1]</td><td style="width:1100px"></td>
+			$else:
+				<td>$n[0]</td><td style="width:160px">$n[1]</td><td style="width:1100px">$n[2]</td>
+			</tr>
+		</table>
+
+</div>
+<br />
