@@ -5,8 +5,10 @@ import DAO.ExecLogDAO
 import DAO.DimDAO
 import DAO.KPIValueDAO
 import DAO.HierarchyDAO
+import DAO.BatchRunSqlDAO
 import json
 
+#global variables and functions
 urls = (
     '/', 'Index',
     '/index', 'Index',
@@ -19,30 +21,49 @@ urls = (
     '/switchdb/', 'SwitchDB',
     '/addnode/', 'AddNode',
     '/clipboard/', 'Clipboard',
-    '/getfimode/', 'GetFullIncrementMode'
+    '/getfimode/', 'GetFullIncrementMode',
+    '/batchexec/', 'BatchExec'
 )
 
 remote_clipboard = []
+
+connstr_d = 'Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
+connstr_p = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
+connstr_us = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
+current_connstr = connstr_us
 
 def GetCurrentDBName(connstr):
     import re
     p = re.search('data source=([\w-]+);', connstr)
     return p.group(1)
 
-connstr_d = 'Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
-connstr_p = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
-connstr_us = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
-current_connstr = connstr_us
-render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
-render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
 
-querydao = DAO.QueryDAO.QueryDAO(current_connstr)
-execlogdao = DAO.ExecLogDAO.ExecLogDAO(current_connstr)
-dimdao = DAO.DimDAO.DimDAO(current_connstr)
-verifykpidao = DAO.KPIValueDAO.KPIValueDAO(current_connstr)
-hierarchydao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
+def createDAO():
+    global querydao
+    querydao = DAO.QueryDAO.QueryDAO(current_connstr)
+    global execlogdao
+    execlogdao = DAO.ExecLogDAO.ExecLogDAO(current_connstr)
+    global dimdao
+    dimdao = DAO.DimDAO.DimDAO(current_connstr)
+    global verifykpidao
+    verifykpidao = DAO.KPIValueDAO.KPIValueDAO(current_connstr)
+    global hierarchydao
+    hierarchydao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
+    global batchrunSqlDAO
+    batchrunSqlDAO = DAO.BatchRunSqlDAO.BatchRunSqlDAO()
 
 
+def createRender():
+    global render
+    render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
+    global render_plain
+    render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
+
+
+createDAO()
+createRender()
+
+#PageClass begin
 class Index:
     def GET(self):
         return render_plain.index()
@@ -181,24 +202,21 @@ class SwitchDB:
         '''
         servername = web.ctx.env['HTTP_USER_AGENT']
         '''
-        global querydao, execlogdao, dimdao, verifykpidao,current_connstr,render,render_plain, hierarchydao
+        global current_connstr
         data = web.input()
         if 'db' in data:
-            if data['db'].lower() == 'production':
+            if data['db'].lower() == 'prod':
                 current_connstr = connstr_p
             elif data['db'].lower() == 'dev':
                 current_connstr = connstr_d
             elif data['db'].lower() == 'us':
                 current_connstr = connstr_us
-            querydao = DAO.QueryDAO.QueryDAO(current_connstr)
-            execlogdao = DAO.ExecLogDAO.ExecLogDAO(current_connstr)
-            dimdao = DAO.DimDAO.DimDAO(current_connstr)
-            verifykpidao = DAO.KPIValueDAO.KPIValueDAO(current_connstr)
-            hierarchydao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
-            render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
-            render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
+            createDAO()
+            createRender()
             return 'Switch to ' + GetCurrentDBName(current_connstr)
         return 'Argument Error.'
+
+
 
 
 class AddNode:
@@ -237,6 +255,29 @@ class GetFullIncrementMode:
             return 'Current Mode is ' + t[0] + ', update on ' + t[1]
         else:
             return 'No mode info!'
+
+
+class BatchExec:
+    def __init__(self):
+        self.connstrlist = [
+            ['v-rewei-pc(backend package dev environment)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
+            ['shlab-ossbi(frontend UI dev environment)','Provider=SQLOLEDB.1;data source=shlab-ossbi;initial catalog=master;Integrated Security=SSPI;'],
+            ['gbs-sandbox(staging environment)','Provider=SQLOLEDB.1;data source=gbs-sandbox;initial catalog=master;Integrated Security=SSPI;'],
+            ['gbs-cosmos-us(product)','Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=master;Integrated Security=SSPI;'],
+            ['gbs-cosmos-prod(internal product)','Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=master;Integrated Security=SSPI;']
+        ]
+
+    def GET(self):
+        return render_plain.BatchExec(self.connstrlist, "")
+
+    def POST(self):
+        data = web.input()
+        if 'who' not in data.keys() or not data['who'] or str(data['who']).strip == '':
+            return render_plain.BatchExec(self.connstrlist, "Please fill your alias.")
+        else:
+            slist = [data[k] for k in data.keys() if k != 'who' and k!= 'script']
+            rs = batchrunSqlDAO.RunBatch(slist, str(data['script']), data['who'])
+            return render_plain.BatchExec(self.connstrlist, rs)
 
 
 app = web.application(urls, globals())

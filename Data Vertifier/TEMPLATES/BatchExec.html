@@ -1,0 +1,25 @@
+$def with (connstrlist,message)
+<title>Run Sql Script to Multi-Server</title>
+<a href="../index" target="view_window">BACK</a>
+<br />
+Select which Server to Run your script:
+<form method = 'post' action = '/batchexec/' style="margin-top:0px;margin-bottom:0px" >
+    <div style="width:1000px" align="center">
+        <div align="left">
+        $for i,s in enumerate(connstrlist):
+            <input type="checkbox" value="$s[1]" name="chkb$i"/>$s[0]<br />
+        </div>
+    </div>
+
+    <div style="margin:5px 0px 5px 0px">Your Alias:<input type="text" name="who" /></div>
+
+    Please write your script below.The default database is master,<font color="red">so don't forget to specify "USE XXDB" in your script</font>
+    <textarea id="script" cols="180" rows="30" name="script">
+
+    </textarea>
+    <br />
+    <br />
+    <input type="submit" value="Submit My Script" />
+    <br />
+    <div style="font-size: 20pt;color:red">$message</div>
+</form>
