@@ -260,7 +260,7 @@ class GetFullIncrementMode:
 class BatchExec:
     def __init__(self):
         self.connstrlist = [
-            ['v-rewei-pc(backend package dev environment)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
+            ['v-rewei-pc(backend package dev environment,NO QUERYDB)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
             ['shlab-ossbi(frontend UI dev environment)','Provider=SQLOLEDB.1;data source=shlab-ossbi;initial catalog=master;Integrated Security=SSPI;'],
             ['gbs-sandbox(staging environment)','Provider=SQLOLEDB.1;data source=gbs-sandbox;initial catalog=master;Integrated Security=SSPI;'],
             ['gbs-cosmos-us(product)','Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=master;Integrated Security=SSPI;'],
