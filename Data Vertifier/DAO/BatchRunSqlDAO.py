@@ -10,22 +10,26 @@ class BatchRunSqlDAO:
         else:
             sql = str(sql).strip()
             self.LogBatchStart(who, sql)
-            extmsg = 'Success'
+            extmsg = ''
             for s in slist:
                 self.LogSqlStart(s)
                 dao = DAO.SqlServerDAO.SqlServerDAO(s)
-                dao.connect()
+                c = None
                 try:
+                    dao.connect()
                     c = dao.conn.cursor()
                     c.execute(sql)
                     dao.conn.commit()
+                    extmsg += s + " :Success\n"
                 except Exception as ext:
-                    extmsg = s + '\n Exception Message:' + ext.message
+                    extmsg += s + " :Fail\n Exception Message:" + ext.message
                     self.LogException(ext.message)
                     break
                 finally:
-                    c.close()
-                    dao.closeconnect()
+                    if c:
+                        c.close()
+                    if dao:
+                        dao.closeconnect()
             self.LogBatchEnd()
             return extmsg
 

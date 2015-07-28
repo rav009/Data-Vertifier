@@ -1,4 +1,4 @@
-$def with (connstrlist,message)
+$def with (connstrlist,message, ip)
 <title>Run Sql Script to Multi-Server</title>
 <a href="../index" target="view_window">BACK</a>
 <br />
@@ -9,11 +9,26 @@ Select which Server to Run your script:
         $for i,s in enumerate(connstrlist):
             <input type="checkbox" value="$s[1]" name="chkb$i"/>$s[0]<br />
         </div>
+        <div align="left" style="margin-top:5px">
+            Choose Database
+            <select name="dbsel">
+                <option value   ="GBS_QueryDB">GBS_QueryDB</option>
+                <option value   ="GBS_QueryDB_Temp">GBS_QueryDB_Temp</option>
+                <option value   ="GBS_FrontendDB">GBS_FrontendDB</option>
+                <option value   ="CDP_CommonDB">CDP_CommonDB</option>
+                <option value   ="CDP_CommonDB_Temp">CDP_CommonDB_Temp</option>
+                <option value   ="CDP_DimensionDB">CDP_DimensionDB</option>
+                <option value   ="GBS_StagingDB">GBS_StagingDB</option>
+            </select>
+        </div>
+
     </div>
 
-    <div style="margin:5px 0px 5px 0px">Your Alias:<input type="text" name="who" /></div>
+    <div style="margin:5px 0px 5px 0px">
+        Your IP: <input type="text" name="who" value="$ip" readonly="readonly"/>
+    </div>
 
-    Please write your script below.The default database is master,<font color="red">so don't forget to specify "USE XXDB" in your script. Advice:Do not use this tool to run Delete command.</font>
+    <font color="red">Advice:Do not use this tool to run Delete command.</font>
     <textarea id="script" cols="180" rows="30" name="script">
 
     </textarea>
@@ -21,5 +36,5 @@ Select which Server to Run your script:
     <br />
     <input type="submit" value="Submit My Script" />
     <br />
-    <div style="font-size: 20pt;color:red">$message</div>
+    <div style="font-size: 20pt;color:red" id="msg">$message</div>
 </form>

@@ -260,24 +260,24 @@ class GetFullIncrementMode:
 class BatchExec:
     def __init__(self):
         self.connstrlist = [
-            ['v-rewei-pc(backend package dev environment,NO QUERYDB)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
-            ['shlab-ossbi(frontend UI dev environment)','Provider=SQLOLEDB.1;data source=shlab-ossbi;initial catalog=master;Integrated Security=SSPI;'],
-            ['gbs-sandbox(staging environment)','Provider=SQLOLEDB.1;data source=gbs-sandbox;initial catalog=master;Integrated Security=SSPI;'],
+            ['v-rewei-pc(backend package dev environment,NO QUERYDB,NO TEMP)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
+            ['shlab-ossbi(frontend UI dev environment,NO TEMP)','Provider=SQLOLEDB.1;data source=shlab-ossbi;initial catalog=master;Integrated Security=SSPI;'],
+            ['gbs-sandbox(staging environment,NO TEMP)','Provider=SQLOLEDB.1;data source=gbs-sandbox;initial catalog=master;Integrated Security=SSPI;'],
             ['gbs-cosmos-us(product)','Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=master;Integrated Security=SSPI;'],
             ['gbs-cosmos-prod(internal product)','Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=master;Integrated Security=SSPI;']
         ]
 
     def GET(self):
-        return render_plain.BatchExec(self.connstrlist, "")
+        return render_plain.BatchExec(self.connstrlist, "", web.ctx.ip)
 
     def POST(self):
         data = web.input()
-        if 'who' not in data.keys() or not data['who'] or str(data['who']).strip == '':
-            return render_plain.BatchExec(self.connstrlist, "Please fill your alias.")
+        if 'who' not in data.keys() or not data['who'] or str(data['who']).strip == '' or str(data['script']).strip == '':
+            return render_plain.BatchExec(self.connstrlist, "Please fill the blank.", web.ctx.ip)
         else:
-            slist = [data[k] for k in data.keys() if k != 'who' and k!= 'script']
+            slist = [str(data[k]).replace("master", str(data["dbsel"])) for k in data.keys() if k != 'who' and k!= 'script' and k != "dbsel"]
             rs = batchrunSqlDAO.RunBatch(slist, str(data['script']), data['who'])
-            return render_plain.BatchExec(self.connstrlist, rs)
+            return render_plain.BatchExec(self.connstrlist, rs, web.ctx.ip)
 
 
 app = web.application(urls, globals())
