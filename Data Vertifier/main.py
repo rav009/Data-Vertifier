@@ -6,6 +6,7 @@ import DAO.DimDAO
 import DAO.KPIValueDAO
 import DAO.HierarchyDAO
 import DAO.BatchRunSqlDAO
+import DAO.BackupSQLDAO
 import json
 
 #global variables and functions
@@ -22,7 +23,8 @@ urls = (
     '/addnode/', 'AddNode',
     '/clipboard/', 'Clipboard',
     '/getfimode/', 'GetFullIncrementMode',
-    '/batchexec/', 'BatchExec'
+    '/batchexec/', 'BatchExec',
+    '/backupsql/', 'BackupSQL'
 )
 
 remote_clipboard = []
@@ -51,6 +53,8 @@ def createDAO():
     hierarchydao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
     global batchrunSqlDAO
     batchrunSqlDAO = DAO.BatchRunSqlDAO.BatchRunSqlDAO()
+    global backupSQLDAO
+    backupSQLDAO = DAO.BackupSQLDAO.BackupSQLDAO(connstr_us)
 
 
 def createRender():
@@ -278,6 +282,55 @@ class BatchExec:
             slist = [str(data[k]).replace("master", str(data["dbsel"])) for k in data.keys() if k != 'who' and k!= 'script' and k != "dbsel"]
             rs = batchrunSqlDAO.RunBatch(slist, str(data['script']), data['who'])
             return render_plain.BatchExec(self.connstrlist, rs, web.ctx.ip)
+
+
+class BackupSQL:
+    def __init__(self):
+        self.dblist = [
+            "GBS_QueryDB", "GBS_QueryDB_Temp", "CDP_CommonDB", "CDP_CommonDB_Temp"
+        ]
+        self.mirrorpath = "\\\\gbs-cosmos-prod\\E$\\BACKUP\\FullBackUp"
+        self.bkpath = "E:\\BACKUP\\FullBackUp"
+        self.backuptpl = "BACKUP DATABASE {0} \n"\
+                         "TO disk = '{1}' \n"\
+                         "MIRROR TO disk = '{2}' \n"\
+                         "WITH compression, init ,format"\
+
+    def GET(self):
+        rs = []
+        for db in self.dblist:
+            r = []
+            id = backupSQLDAO.GetDB_id(db)
+            r.append(id)
+            r.append(db)
+            r.append(self.FormatBackupSQL(db, id))
+            rs.append(r)
+        return render_plain.BackupSQL(self.bkpath, self.mirrorpath, rs)
+
+    def GetDB_backup_name(self, dbname, dbid):
+        if("query" in str(dbname).lower()):
+            if (dbid == 8):
+                return "GBS_DB_ID_6_full.bak"
+            elif(dbid == 9):
+                return "GBS_DB_ID_8_full.bak"
+            else:
+                raise ValueError("Unknown dbid: "+str(dbid))
+        if ("common" in str(dbname).lower()):
+            return "Cdp_CommonDB_Fullbackup_" + str(dbid) + ".bak"
+
+    def FormatBackupSQL(self, dbname, dbid):
+        bkname = self.GetDB_backup_name(dbname, dbid)
+        bkfullname = ""
+        mfullname = ""
+        if(self.bkpath.endswith('\\')):
+            bkfullname = self.bkpath + bkname
+        else:
+            bkfullname = self.bkpath + "\\" + bkname
+        if(self.mirrorpath.endswith('\\')):
+            mfullname = self.mirrorpath+ bkname
+        else:
+            mfullname = self.mirrorpath + "\\" + bkname
+        return self.backuptpl.format(dbname, bkfullname, mfullname)
 
 
 app = web.application(urls, globals())
