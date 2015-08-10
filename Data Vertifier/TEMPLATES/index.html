@@ -14,11 +14,17 @@
 <body>
 
 <div style="padding:20px 50px">
+	<div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline;font-size:large">No Mode Info!</div>
+	<input type="button" value="Refresh" onclick="get_full_increment_mode()" />
+	<div id="jobstatus" style="margin-top:15px;font-size:large"></div>
+
+	<br />
 	<select id="dbsel">
 		<option value="Dev">DEV</option>
 		<option value="prod">gbs-cosmos-prod</option>
        <option value="US">gbs-cosmos-us</option>
 	</select>
+
 	<input type="button" value="Switch DB" onclick="switchdb()" />
 	<script type="text/javascript">
 		$if connstr.lower() == 'gbs-cosmos-prod':
@@ -27,19 +33,27 @@
 		    $$('#dbsel').val('US')
 		$else:
 			$$('#dbsel').val('Dev')
-
-
 	</script>
 
 	<script type="text/javascript">
-
 		$$.ajaxSetup({cache:false});
 
-        function get_full_increment_mode(){
+       function get_full_increment_mode(){
 		    var u = '/getfimode/'
 		    $$.get(u, function(rs){
 		    	//alert(rs)
 				$$('#full_increment').html(rs)
+			})
+		}
+
+		function getsyncstatus(){
+			var u = '/getsyncstatus/'
+			var s = 'Sync Job Information:<br />'
+			$$.getJSON(u, function(rs){
+				for(var key in rs){
+					s += "<div>" + key + " : " + rs[key] + "</div>"
+					$$('#jobstatus').html(s)
+				}
 			})
 		}
 
@@ -51,14 +65,9 @@
 			})
 			get_full_increment_mode()
 		}
-
-		
 	</script>
 
     <br /><br />
-    <div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline">No Mode Info!</div>
-    <input type="button" value="Refresh" onclick="get_full_increment_mode()" />
-
     <a href="/execlog/" target="view_window">Mdx KPI Browse Logs</a>
 
     <a href="/mdxquery/" target="view_window">Generate MDX Query</a>
@@ -80,7 +89,10 @@
 	<a href="/backupsql/" target="view_window">Show Backup Sql Script</a>
 </div>
 
-<script type="text/javascript">get_full_increment_mode()</script>
+<script type="text/javascript">
+	get_full_increment_mode();
+	getsyncstatus();
+</script>
 
 </body>
 </html>

@@ -2,12 +2,13 @@ __author__ = 'v-rewei'
 
 import DAO.SqlServerDAO
 
-class BackupSQLDAO(DAO.SqlServerDAO.SqlServerDAO):
+class BackupSQLDAO:
     def __init__(self, connstr):
-        super(BackupSQLDAO, self).__init__(connstr)
+        self.connstr = connstr
 
     def GetDB_id(self, dbname):
         sql = "select DB_ID('" + dbname +"')"
-        rs = self.getone(sql)
+        dao = DAO.SqlServerDAO.SqlServerDAO(self.connstr)
+        rs = dao.getone(sql)
         return int(rs)
 

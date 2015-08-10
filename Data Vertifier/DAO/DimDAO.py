@@ -146,19 +146,3 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
     def LoadDimPCGeography(self):
         sql = 'select PCGeographyID, FullName from dashboard.DimPCGeography'
         return self.LoadData2Col(sql)
-
-    def LoadFullIncrementMode(self):
-        rs = None
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute('select * from dashboard.helper_KPIValue_Increment_Full')
-        try:
-            row = cursor.fetchone()
-            if row is not None:
-                rs = ((row[0], row[1]))
-        except Exception as ext:
-            print ext.message
-        finally:
-            cursor.close()
-            self.closeconnect()
-            return rs

@@ -15,6 +15,9 @@ class SqlServerDAO(object):
     def connect(self):
         self.conn = adodbapi.connect(self.connstr)
 
+    def returnconn(self, _connstr):
+        return adodbapi.connect(_connstr)
+
     def closeconnect(self):
         pass
 

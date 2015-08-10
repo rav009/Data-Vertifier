@@ -7,6 +7,7 @@ import DAO.KPIValueDAO
 import DAO.HierarchyDAO
 import DAO.BatchRunSqlDAO
 import DAO.BackupSQLDAO
+import DAO.MiscellaneousDAO
 import json
 
 #global variables and functions
@@ -23,6 +24,7 @@ urls = (
     '/addnode/', 'AddNode',
     '/clipboard/', 'Clipboard',
     '/getfimode/', 'GetFullIncrementMode',
+    '/getsyncstatus/', 'GetSyncJobStatus',
     '/batchexec/', 'BatchExec',
     '/backupsql/', 'BackupSQL'
 )
@@ -39,6 +41,7 @@ def GetCurrentDBName(connstr):
     p = re.search('data source=([\w-]+);', connstr)
     return p.group(1)
 
+misdao = DAO.MiscellaneousDAO.MiscellaneousDAO(connstr_us)
 
 def createDAO():
     global querydao
@@ -221,8 +224,6 @@ class SwitchDB:
         return 'Argument Error.'
 
 
-
-
 class AddNode:
     def GET(self):
         return render.addnode("", "", [])
@@ -254,11 +255,53 @@ class Clipboard:
 
 class GetFullIncrementMode:
     def GET(self):
-        t = dimdao.LoadFullIncrementMode()
+        t = misdao.LoadFullIncrementMode()
         if t:
-            return 'Current Mode is ' + t[0] + ', update on ' + t[1]
+            return 'gbs-cosmos-us server T4 Current Mode is ' + t[0] + ', update on ' + t[1]
         else:
             return 'No mode info!'
+
+
+class GetSyncJobStatus:
+    def GET(self):
+        t = misdao.LoadSyncJobStatus()
+        map_status={
+            0:'Returns only those jobs that are not idle or suspended.',
+            1:'Executing.',
+            2:'Waiting for thread.',
+            3:'Between retries.',
+            4:'Idle.',
+            5:'Suspended.',
+            7:'Performing completion actions.'
+        }
+        map_outcome ={
+            0 : 'Failed',
+            1 : 'Succeeded',
+            3 : 'Canceled',
+            5 : 'Unknown'
+        }
+        if t:
+            rs = {}
+            date = ''
+            hms = ''
+            for k in t.keys():
+                kr = str(k).replace("_", " ")
+                if k == 'current_execution_status':
+                    rs[kr] = map_status[t[k]]
+                elif k == 'last_run_outcome':
+                    rs[kr] = map_outcome[t[k]]
+                elif k == 'last_run_date':
+                    date = str(t[k])[0:4] + "/" + str(t[k])[4:6] + "/" + str(t[k])[6:8]
+                elif k == 'last_run_time':
+                    hms = str(t[k])[0:2] + ":" + str(t[k])[2:4] + ":" + str(t[k])[4:6]
+                else:
+                    rs[kr] = t[k]
+            rs['last run datetime'] = date + " " + hms
+            import collections
+            rs = collections.OrderedDict(sorted(rs.items()))
+            return json.dumps(rs)
+        else:
+            return '{}'
 
 
 class BatchExec:
