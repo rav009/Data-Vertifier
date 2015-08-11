@@ -293,7 +293,10 @@ class GetSyncJobStatus:
                 elif k == 'last_run_date':
                     date = str(t[k])[0:4] + "/" + str(t[k])[4:6] + "/" + str(t[k])[6:8]
                 elif k == 'last_run_time':
-                    hms = str(t[k])[0:2] + ":" + str(t[k])[2:4] + ":" + str(t[k])[4:6]
+                    if len(str(t[k])) == 6:
+                        hms = str(t[k])[0:2] + ":" + str(t[k])[2:4] + ":" + str(t[k])[4:6]
+                    else:
+                        hms = str(t[k])[0:1] + ":" + str(t[k])[1:3] + ":" + str(t[k])[3:5]
                 else:
                     rs[kr] = t[k]
             rs['last run datetime'] = date + " " + hms

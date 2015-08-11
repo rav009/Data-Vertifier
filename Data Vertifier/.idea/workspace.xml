@@ -21,10 +21,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TEMPLATES/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.26717559">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -35,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="293" column="86" selection-start-line="293" selection-start-column="86" selection-end-line="293" selection-end-column="86" />
+            <state vertical-scroll-proportion="0.34687954">
+              <caret line="288" column="51" selection-start-line="288" selection-start-column="51" selection-end-line="288" selection-end-column="51" />
               <folding>
                 <element signature="e#23#33#0" expanded="true" />
                 <element signature="e#2257#2307#0" expanded="false" />
@@ -52,7 +52,8 @@
                 <element signature="e#7228#7710#0" expanded="false" />
                 <element signature="e#7734#7993#0" expanded="false" />
                 <element signature="e#8028#8241#0" expanded="false" />
-                <element signature="e#9673#11206#0" expanded="false" />
+                <element signature="e#9838#11371#0" expanded="false" />
+                <element signature="e#11395#13151#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -154,8 +155,8 @@
         <option value="$PROJECT_DIR$/DAO/MiscellaneousDAO.py" />
         <option value="$PROJECT_DIR$/DAO/BackupSQLDAO.py" />
         <option value="$PROJECT_DIR$/DAO/ExecLogDAO.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/TEMPLATES/index.html" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -899,27 +900,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="293" column="86" selection-start-line="293" selection-start-column="86" selection-end-line="293" selection-end-column="86" />
-          <folding>
-            <element signature="e#23#33#0" expanded="true" />
-            <element signature="e#2257#2307#0" expanded="false" />
-            <element signature="e#2330#2975#0" expanded="false" />
-            <element signature="e#2997#3351#0" expanded="false" />
-            <element signature="e#3369#3805#0" expanded="false" />
-            <element signature="e#3829#5200#0" expanded="false" />
-            <element signature="e#5228#6488#0" expanded="false" />
-            <element signature="e#6511#7206#0" expanded="false" />
-            <element signature="e#7228#7710#0" expanded="false" />
-            <element signature="e#7734#7993#0" expanded="false" />
-            <element signature="e#8028#8241#0" expanded="false" />
-            <element signature="e#9673#11206#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DAO/BatchRunSqlDAO.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -938,12 +918,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TEMPLATES/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26717559">
+        <state vertical-scroll-proportion="-0.0">
           <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34687954">
+          <caret line="288" column="51" selection-start-line="288" selection-start-column="51" selection-end-line="288" selection-end-column="51" />
+          <folding>
+            <element signature="e#23#33#0" expanded="true" />
+            <element signature="e#2257#2307#0" expanded="false" />
+            <element signature="e#2330#2975#0" expanded="false" />
+            <element signature="e#2997#3351#0" expanded="false" />
+            <element signature="e#3369#3805#0" expanded="false" />
+            <element signature="e#3829#5200#0" expanded="false" />
+            <element signature="e#5228#6488#0" expanded="false" />
+            <element signature="e#6511#7206#0" expanded="false" />
+            <element signature="e#7228#7710#0" expanded="false" />
+            <element signature="e#7734#7993#0" expanded="false" />
+            <element signature="e#8028#8241#0" expanded="false" />
+            <element signature="e#9838#11371#0" expanded="false" />
+            <element signature="e#11395#13151#0" expanded="false" />
           </folding>
         </state>
       </provider>
