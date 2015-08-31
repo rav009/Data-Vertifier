@@ -24,7 +24,7 @@ urls = (
     '/addnode/', 'AddNode',
     '/clipboard/', 'Clipboard',
     '/getfimode/', 'GetFullIncrementMode',
-    '/getsyncstatus/', 'GetSyncJobStatus',
+    '/getjobstatus/', 'GetJobStatus',
     '/batchexec/', 'BatchExec',
     '/backupsql/', 'BackupSQL'
 )
@@ -262,26 +262,34 @@ class GetFullIncrementMode:
             return 'No mode info!'
 
 
-class GetSyncJobStatus:
+class GetJobStatus:
     def GET(self):
-        t = misdao.LoadSyncJobStatus()
+        rs = []
+        t1 = misdao.LoadSyncJobStatus()
+        rs.append(self.jobqueryhandler(t1))
+        t2 = misdao.LoadT4JobStatus()
+        rs.append(self.jobqueryhandler(t2))
+        #print json.dumps(rs)
+        return json.dumps(rs)
+
+    def jobqueryhandler(self, t):
         map_status={
-            0:'Returns only those jobs that are not idle or suspended.',
-            1:'Executing.',
-            2:'Waiting for thread.',
-            3:'Between retries.',
-            4:'Idle.',
-            5:'Suspended.',
-            7:'Performing completion actions.'
+            0: 'Returns only those jobs that are not idle or suspended.',
+            1: 'Executing.',
+            2: 'Waiting for thread.',
+            3: 'Between retries.',
+            4: 'Idle.',
+            5: 'Suspended.',
+            7: 'Performing completion a ctions.'
         }
         map_outcome ={
-            0 : 'Failed',
-            1 : 'Succeeded',
-            3 : 'Canceled',
-            5 : 'Unknown'
+            0: 'Failed',
+            1: 'Succeeded',
+            3: 'Canceled',
+            5: 'Unknown'
         }
+        rs = {}
         if t:
-            rs = {}
             date = ''
             hms = ''
             for k in t.keys():
@@ -300,11 +308,7 @@ class GetSyncJobStatus:
                 else:
                     rs[kr] = t[k]
             rs['last run datetime'] = date + " " + hms
-            import collections
-            rs = collections.OrderedDict(sorted(rs.items()))
-            return json.dumps(rs)
-        else:
-            return '{}'
+        return rs
 
 
 class BatchExec:

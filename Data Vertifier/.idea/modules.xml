@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/KPI Verification Web.iml" filepath="$PROJECT_DIR$/.idea/KPI Verification Web.iml" />
-      <module fileurl="file://D:/tmp-program/py-tmp/.idea/py-tmp.iml" filepath="D:/tmp-program/py-tmp/.idea/py-tmp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../LoadDeliveryExcellenceKPI/.idea/LoadDeliveryExcellenceKPI.iml" filepath="$PROJECT_DIR$/../../LoadDeliveryExcellenceKPI/.idea/LoadDeliveryExcellenceKPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../py-tmp/.idea/py-tmp.iml" filepath="$PROJECT_DIR$/../../py-tmp/.idea/py-tmp.iml" />
     </modules>
   </component>
 </project>
-

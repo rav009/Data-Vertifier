@@ -37,8 +37,8 @@ class ExecLogDAO(DAO.SqlServerDAO.SqlServerDAO):
                     ' on e.KPIID=n.KPIID and e.Querypart=n.Part '
                     ' {1} '
                     'order by execdate desc').format(str(top), 'where ExecStatus like \'Failed\'')
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -50,7 +50,7 @@ class ExecLogDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             return rs
 
 

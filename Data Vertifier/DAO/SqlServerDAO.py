@@ -15,11 +15,14 @@ class SqlServerDAO(object):
     def connect(self):
         self.conn = adodbapi.connect(self.connstr)
 
-    def returnconn(self, _connstr):
-        return adodbapi.connect(_connstr)
+    def returnconn(self, _connstr = None):
+        if not _connstr:
+            return adodbapi.connect(self.connstr)
+        else:
+            return adodbapi.connect(_connstr)
 
     def closeconnect(self):
-        pass
+        self.conn.close()
 
     def execsql(self, sql):
         """

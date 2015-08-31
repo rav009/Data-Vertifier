@@ -7,6 +7,7 @@ class MiscellaneousDAO(DAO.SqlServerDAO.SqlServerDAO):
     def __init__(self, connstr):
         super(MiscellaneousDAO, self).__init__(connstr)
         self.syncjobname = 'Sync'
+        self.T4jobname = 'Cosmos_KPIValue_CTS_GPS_Daily'
         self.jobstatus_struct = {
             'current_execution_status': 25,
             'current_execution_step': 26,
@@ -33,6 +34,25 @@ class MiscellaneousDAO(DAO.SqlServerDAO.SqlServerDAO):
 
     def LoadSyncJobStatus(self):
         sql = ('EXEC msdb.dbo.sp_help_job @Job_name = \'{0}\',@job_aspect = N\'JOB\' ;').format(self.syncjobname)
+        rs = None
+        _conn = self.returnconn(self.connstr)
+        cursor = _conn.cursor()
+        cursor.execute(sql)
+        try:
+            row = cursor.fetchone()
+            if row is not None:
+                rs = {}
+                for k in self.jobstatus_struct.keys():
+                    rs[k] = row[self.jobstatus_struct[k]]
+        except Exception as ext:
+            print ext.message
+        finally:
+            cursor.close()
+            _conn.close()
+            return rs
+
+    def LoadT4JobStatus(self):
+        sql = ('EXEC msdb.dbo.sp_help_job @Job_name = \'{0}\',@job_aspect = N\'JOB\' ;').format(self.T4jobname)
         rs = None
         _conn = self.returnconn(self.connstr)
         cursor = _conn.cursor()

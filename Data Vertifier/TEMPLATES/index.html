@@ -47,13 +47,18 @@
 		}
 
 		function getsyncstatus(){
-			var u = '/getsyncstatus/'
-			var s = 'Sync Job Information:<br />'
+			var u = '/getjobstatus/'
+
 			$$.getJSON(u, function(rs){
-				for(var key in rs){
-					s += "<div>" + key + " : " + rs[key] + "</div>"
-					$$('#jobstatus').html(s)
+				var s = 'Sync Job Information:<br />'
+				for(var key in rs[0]){
+					s += "<div>" + key + " : " + rs[0][key] + "</div>"
 				}
+				s = s + '<br />T4 Job Information:<br />'
+				for(var key in rs[1]){
+					s += "<div>" + key + " : " + rs[1][key] + "</div>"
+				}
+				$$('#jobstatus').html(s)
 			})
 		}
 
@@ -78,7 +83,7 @@
 
     <a href="/verifykpi/T4" target="view_window">T4 Verify KPI Values</a>
 
-    <a href="/verifykpi/T4" target="view_window">DeliveryExcellence Verify KPI Values</a>
+    <!--<a href="/verifykpi/T4" target="view_window">DeliveryExcellence Verify KPI Values</a>-->
 
 	<a href="/addnode/" target="view_window">Add New Hierarchy Node</a>
 

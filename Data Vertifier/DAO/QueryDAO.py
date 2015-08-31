@@ -42,8 +42,8 @@ class QueryDAO(DAO.SqlServerDAO.SqlServerDAO):
                '                JOIN [dashboard].[KPIQuery_Specific] B ON A.DatasourceID=B.DatasourceID\n'
                '                WHERE B.KPIID={0} ORDER BY [KPIID]'
         ).format(str(kpiid))
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -71,7 +71,7 @@ class QueryDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             if not rs:
                 m = MODEL.MDXQuery.MDXQuery(None, 'This KPI is not get by mdx', None, None)
                 rs.append(m)

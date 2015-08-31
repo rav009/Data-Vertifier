@@ -2,9 +2,10 @@ __author__ = 'v-rewei'
 
 import DAO.SqlServerDAO
 
-class HierarchyDAO(DAO.SqlServerDAO.SqlServerDAO):
+class HierarchyDAO:
     def __init__(self, connstr):
-        super(HierarchyDAO, self).__init__(connstr)
+        self.connstr = connstr
+        #super(HierarchyDAO, self).__init__(connstr)
 
     def getnewid(self, root, nodepath):
         ns = [n for n in nodepath.split('/') if n != '']
@@ -17,7 +18,8 @@ class HierarchyDAO(DAO.SqlServerDAO.SqlServerDAO):
         sql = u'SELECT [NodeValue] FROM [GBS_StagingDB].[selfboard].[Hierarchy] where' \
              ' [Hierarchyid] = hierarchyid::Parse(\'{0}\')'.format(hid)
         #print sql
-        rs = self.getone(sql)
+        dao = DAO.SqlServerDAO.SqlServerDAO(self.connstr)
+        rs = dao.getone(sql)
         if not rs:
             raise Exception('The hierarchyid can\'t be found in the Hierarchy table:' + hid)
         return rs
@@ -37,7 +39,8 @@ class HierarchyDAO(DAO.SqlServerDAO.SqlServerDAO):
              'Nodevalue like \'{0}\' and '
              '[HierarchyId].IsDescendantOf(hierarchyid::Parse(\'{1}\'))=1 and '
              '[HierarchyId].GetLevel()-hierarchyid::Parse(\'{1}\').GetLevel()=1').format(name, fathernodeid)
-        hid = self.getone(sql)
+        dao = DAO.SqlServerDAO.SqlServerDAO(self.connstr)
+        hid = dao.getone(sql)
         if hid:
             return hid, 0
         else:

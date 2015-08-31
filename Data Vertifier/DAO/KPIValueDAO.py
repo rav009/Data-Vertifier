@@ -14,8 +14,8 @@ class KPIValueDAO(DAO.SqlServerDAO.SqlServerDAO):
                 'exec [dashboard].[procGetT5KPIValues]'
                 ' {0},{1},{2},{3},{4},{5}'
         ).format(dashboardid, fiscaltimeid, geoid, productid, deliverysiteid, teamid)
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -27,7 +27,7 @@ class KPIValueDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             return rs
 
     def t4loadkpivalues(self, dashboardid, fiscaltimeid, geoid, productid, deliverysiteid, pubsectorid):
@@ -36,8 +36,8 @@ class KPIValueDAO(DAO.SqlServerDAO.SqlServerDAO):
                 'exec [dashboard].[procGetT4KPIValues]'
                 ' {0},{1},{2},{3},{4},{5}'
         ).format(dashboardid, fiscaltimeid, geoid, productid, deliverysiteid, pubsectorid)
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -49,5 +49,5 @@ class KPIValueDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             return rs

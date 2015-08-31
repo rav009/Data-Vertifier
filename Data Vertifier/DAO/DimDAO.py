@@ -9,8 +9,8 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
 
     def LoadData2Col(self, sql):
         rs = []
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -21,14 +21,14 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             return rs
 
     def LoadDimGeography(self):
         rs = []
         sql = 'SELECT [GeographyID],[FullName],[DisplayHierachy] FROM [GBS_StagingDB].[dashboard].[DimGeography]'
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -39,62 +39,20 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             return rs
 
     def LoadDimProduct(self):
-        rs = []
         sql = 'SELECT [ProductID],[ProductName] FROM [GBS_StagingDB].[dashboard].[DimProduct]'
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(sql)
-        try:
-            row = cursor.fetchone()
-            while row is not None:
-                rs.append((row[0], row[1]))
-                row = cursor.fetchone()
-        except Exception as ext:
-            print ext.message
-        finally:
-            cursor.close()
-            self.closeconnect()
-            return rs
+        return self.LoadData2Col(sql)
 
     def LoadDimDeliverySite(self):
-        rs = []
         sql = 'SELECT [DeliverySiteID],[DeliverySiteName] FROM [GBS_StagingDB].[dashboard].[DimDeliverySite]'
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(sql)
-        try:
-            row = cursor.fetchone()
-            while row is not None:
-                rs.append((row[0], row[1]))
-                row = cursor.fetchone()
-        except Exception as ext:
-            print ext.message
-        finally:
-            cursor.close()
-            self.closeconnect()
-            return rs
+        return self.LoadData2Col(sql)
 
     def LoadDimTeam(self):
-        rs = []
         sql = 'SELECT [TeamID],[Name] FROM [GBS_StagingDB].[dashboard].[DimTeam]'
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(sql)
-        try:
-            row = cursor.fetchone()
-            while row is not None:
-                rs.append((row[0], row[1]))
-                row = cursor.fetchone()
-        except Exception as ext:
-            print ext.message
-        finally:
-            cursor.close()
-            self.closeconnect()
-            return rs
+        return self.LoadData2Col(sql)
 
     def LoadDimFiscalTime(self):
         rs = []
@@ -103,8 +61,8 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
                 '+cast([FiscalMonth] as varchar(3)) else cast([FiscalMonth] as varchar(3)) end'
                 ',[FiscalYearName]+ ' '+[FiscalMonthName]'
                 'FROM [GBS_StagingDB].[dashboard].[DimFiscalPeriod]')
-        self.connect()
-        cursor = self.conn.cursor()
+        conn = self.returnconn()
+        cursor = conn.cursor()
         cursor.execute(sql)
         try:
             row = cursor.fetchone()
@@ -115,28 +73,13 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
             print ext.message
         finally:
             cursor.close()
-            self.closeconnect()
+            conn.close()
             return rs
 
     def LoadDimPubSector(self):
-        rs = []
         sql = ('SELECT  [PublicSectorID],[PublicSectorName] '
                'FROM [GBS_StagingDB].[dashboard].[DimPublicSector]')
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(sql)
-        try:
-            row = cursor.fetchone()
-            while row is not None:
-                rs.append((row[0], row[1]))
-                row = cursor.fetchone()
-        except Exception as ext:
-            print ext.message
-        finally:
-            cursor.close()
-            self.closeconnect()
-            return rs
-
+        return self.LoadData2Col(sql)
 
     def LoadDimFunction(self):
         sql = 'select functionid, FunctionName from dashboard.DimFunction'
