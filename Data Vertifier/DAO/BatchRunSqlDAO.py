@@ -43,18 +43,19 @@ class BatchRunSqlDAO:
             f.write('\n')
             f.write('Alias: ' + who)
             f.write('\n')
-            f.write(str(sql))
+            f.write(str(sql).replace('\r\n', '\n'))
+            f.write('\n')
 
     def LogSqlStart(self, connstr):
         with open("batchlog.log", mode='a+') as f:
-            f.write('\n');
+            f.write('\n')
             f.write(connstr)
 
     def LogException(self, message):
         with open("batchlog.log", mode='a+') as f:
-            f.write('\n');
+            f.write('\n')
             f.write('Exception: \n');
-            f.write(message)
+            f.write(message.replace('\r\n', '\n'))
 
     def LogBatchEnd(self):
         with open("batchlog.log", mode='a+') as f:
