@@ -128,61 +128,18 @@ class VerifyKPI:
     def GET(self, t):
         if str(t).upper() == 'T4':
             return render.T4verifykpi([])
+        elif str(t).upper() == 'DE':
+            return render.DeliveryExcellence([])
         else:
-            return render.T5verifykpi([])
-
-    def POST(self, t):
-        data = web.input()
-        if str(t).upper() == 'T5':
-            return self.T5handler(data)
-        else:
-            return self.T4handler(data)
-
-    #def T5handler(self, data):
-    #    if 'dashboard' in data.keys():
-    #        dashboard = data['dashboard']
-    #        fiscaltime = data['fiscaltime']
-    #        geography = data['geography']
-    #        product = data['product']
-    #        deliverysite = data['deliverysite']
-    #        team = data['team']
-    #        kpis = verifykpidao.t5loadkpivalues(dashboard, fiscaltime, geography, product, deliverysite, team)
-    #    else:
-    #        kpis = []
-    #    return render.T5verifykpi(kpis)
-
-    def T4handler(self, data):
-        if 'dashboard' in data.keys():
-            dashboard = data['dashboard']
-            fiscaltime = data['fiscaltime']
-            geography = data['geography']
-            product = data['product']
-            deliverysite = data['deliverysite']
-            publicsector = data['pubsector']
-            kpis = verifykpidao.t4loadkpivalues(dashboard, fiscaltime, geography, product, deliverysite, publicsector)
-        else:
-            kpis = []
-        return render.T4verifykpi(kpis)
-
+            raise Exception('Unknown Parameter: ' + str(t))
 
 class VerifyKPIJson:
     def GET(self):
         data = web.input()
-        if str(data['type']).upper() == 'T5':
-            return self.T5handler(data)
-        else:
+        if str(data['type']).upper() == 'DE':
+            return self.DEhandler(data)
+        elif str(data['type']).upper() == 'T4':
             return self.T4handler(data)
-
-    #def T5handler(self, data):
-    #    if 'dashboard' in data.keys():
-    #        dashboard = data['dashboard']
-    #        fiscaltime = data['fiscaltime']
-    #        geography = data['geography']
-    #        product = data['product']
-    #        deliverysite = data['deliverysite']
-    #        team = data['team']
-    #        kpis = verifykpidao.t5loadkpivalues(dashboard, fiscaltime, geography, product, deliverysite, team)
-    #        return json.dumps([kpi.__dict__ for kpi in kpis])
 
     def T4handler(self, data):
         if 'dashboard' in data.keys():
@@ -195,9 +152,15 @@ class VerifyKPIJson:
             kpis = verifykpidao.t4loadkpivalues(dashboard, fiscaltime, geography, product, deliverysite, publicsector)
             return json.dumps([kpi.__dict__ for kpi in kpis])
 
-
     def DEhandler(self, data):
-        return 'Page in building.'
+        if 'fiscaltime' in data.keys():
+            fiscaltime = data['fiscaltime']
+            profitcenterid = data['profitcenterid']
+            deliverysite = data['deliverysite']
+            function = data['function']
+            usedeliverysite = int(data['usedeliverysite'])
+            kpis = verifykpidao.DEloadkpivalues(fiscaltime, profitcenterid, deliverysite, function, usedeliverysite)
+            return json.dumps([kpi.__dict__ for kpi in kpis])
 
 
 class SwitchDB:

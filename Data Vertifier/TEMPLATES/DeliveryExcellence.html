@@ -1,5 +1,6 @@
 $def with (kpis)
-<title>KPI Values Verify for T4 Premier&BC</title>
+<title>KPI Values Verify for DeliveryExcellence</title>
+
 <style>
     select,input{
         margin:3px 1px;
@@ -16,20 +17,68 @@ $def with (kpis)
         document.getElementsByName(name)[0].value=obj.value
     }
 </script>
-<form action="/verifykpi/t4" method="post">
-Please input dashboard ID:
-<input name="dashboard" type="text" value="1" />
-<select name="dashboard_sel" onchange="setselectid('dashboard', this)">
-    <option value="1">Premier</option>
-    <option value="2">BC</option>
-    <option value="3">SMS&amp;P</option>
-    <option value="4">Delivery Excellence</option>
-    <option value="0">Premier Info</option>
-    <option value="8">Customer Service</option>
-    <option value="9">Partner</option>
+<br />
+Please input ProfitCenterID ID:
+<input name="ProfitCenterID" type="text" value="1000000" />
+<select name="ProfitCenterID_sel" onchange="setselectid('ProfitCenterID', this)">
+    <option value="1000000"> ALL</option>
+    <option value="1010000"> CSS Americas</option>
+    <option value="1010100"> Canada CSS</option>
+    <option value="1010300"> LATAM CSS</option>
+    <option value="1020000"> CSS Asia</option>
+    <option value="1020300"> GCR CSS</option>
+    <option value="1020400"> India CSS</option>
+    <option value="1030000"> CSS EMEA</option>
+    <option value="1030600"> UK CSS </option>
+    <option value="1030700"> Western Europe CSS </option>
 </select>
 <br />
-Please input fiscaltime ID:
+
+Please input DeliverySite ID:
+<input name="DeliverySiteID" type="text" value="1000000" />
+<select name="DeliverySiteID_sel" onchange="setselectid('DeliverySiteID', this)">
+    <option value="1">WorldWide</option>
+    <option value="17">ASIA</option>
+    <option value="22">NA</option>
+    <option value="3">LATAM</option>
+    <option value="18">EMEA</option>
+    <option value="7">India</option>
+</select>
+Use DeliverySite ID as Geography Dimension: <input id="usedeliverysite" type="checkbox" />
+<br />
+
+Please input Function ID:
+<input name="FunctionID" type="text" value="1000000" />
+<select name="FunctionID_sel" onchange="setselectid('FunctionID', this)">
+    <option value="1000000"> CSS Delivery Business </option>
+    <option value="1010000"> GBS - ASG </option>
+    <option value="1010101"> ASG - Public Sector </option>
+    <option value="1010105"> ASG - Exchange </option>
+    <option value="1010107"> ASG - Internal Delivery (CS + FTEs) </option>
+    <option value="1010108"> ASG - Skype </option>
+    <option value="1010110"> ASG - Office </option>
+    <option value="1010112"> ASG - SharePoint </option>
+    <option value="1020000"> GBS - C&E </option>
+    <option value="1020101"> C&E - BI & Data </option>
+    <option value="1020102"> C&E - Developer Tools </option>
+    <option value="1020103"> C&E - Public Sector </option>
+    <option value="1020104"> C&E - MSD </option>
+    <option value="1020106"> C&E - Windows </option>
+    <option value="1020201"> C&E - Azure - Commerce Asia </option>
+    <option value="1020202"> C&E - Azure - Tech Asia </option>
+    <option value="1020203"> C&E - Intune </option>
+    <option value="1030000"> GBS - Dynamics/SMS&P </option>
+    <option value="1030104"> Dynamics - Support Engineering-CRM </option>
+    <option value="1030105"> Dynamics - Support Engineering-ERP </option>
+    <option value="1040000"> GBS - PFE </option>
+    <option value="1040101"> PFE - CPM </option>
+    <option value="1040102"> PFE - RDC </option>
+    <option value="1040103"> PFE - Public Sector </option>
+    <option value="1040104"> PFE - PMC Delivery</option>
+</select>
+<br />
+
+Please input Fiscaltime ID:
 <input name="fiscaltime" value="50" />
 <select name="fiscaltime_sel" onchange="setselectid('fiscaltime', this)">
     <option value="32">FY14FM08 FY14Feb</option>
@@ -70,68 +119,18 @@ Please input fiscaltime ID:
     <option value="66">FY17FM06 FY17Dec</option>
 </select>
 <br />
-Please input geography ID:
-<input name="geography" type="text" value="1000000" />
-<select name="geography_sel" onchange="setselectid('geography', this)">
-    <option value="1000000">WorldWide</option>
-    <option value="1010000">Americas</option>
-    <option value="1030000">ASIA</option>
-    <option value="1010200">LATAM</option>
-    <option value="1020000">EMEA</option>
-    <option value="1030200">GCR</option>
-    <option value="1010102">United States</option>
-    <option value='1030100'>APAC</option>
-    <option value='1030301'>India Level4</option>
-    <option value='1030401'>Japan Level4</option>
-    <option value='1020700'>DACH</option>
-</select>
-<br />
-Please input product ID:
-<input name="product" type="text" value="10000" />
-<select name="product_sel" onchange="setselectid('product', this)">
-    <option value="10000">ALL</option>
-    <option value="10100">STB C&amp;E</option>
-    <option value="10200">MOD ASG</option>
-    <option value="10300">Dynamics</option>
-    <option value="10400">STB/MOD</option>
-    <option value='10205'>O365 Dedicated/ITAR</option>
-    <option value='10206'>O365 MT/BPOS</option>
-    <option value='10207'>ASG Cloud Other</option>
-    <option value='10105'>Windows Intune</option>
-    <option value='10106'>Azure</option>
-    <option value='10303'>Dynamics CRM Online</option>
-</select>
-<br />
-Please input deliverysite ID:
-<input name="deliverysite" type="text" value="1" />
-<select name="deliverysite_sel" onchange="setselectid('deliverysite', this)">
-    <option value="1">WorldWide</option>
-    <option value="17">ASIA</option>
-    <option value="22">NA</option>
-    <option value="3">LATAM</option>
-    <option value="18">EMEA</option>
-    <option value="7">India</option>
-</select>
-<br />
-Please input public sector ID:
-<input name="pubsector" type="text" value="10000" />
-<select name="pubsector_sel" onchange="setselectid('pubsector', this)">
-    <option value="10000">ALL</option>
-    <option value="10100">PubSector</option>
-    <option value="10200">Non-PubSec</option>
-	<option value="10201">Central</option>
-	<option value="10202">East</option>
-	<option value="10203">West</option>
-	<option value="10204">Other</option>
-</select>
-<br />
-    <!--<input type="submit" value="submit" />-->
-    <input type="button" value="submit" onclick="refreshkpi()" />
-</form>
+
+
+<input type="button" value="submit" onclick="refreshkpi()" />
+
 <script>
     function refreshkpi(){
         $$("#kpitable").html("")
-        url = '/verifykpijson/?type=T4&dashboard='+$$("input[name='dashboard']").val()+'&fiscaltime='+$$("input[name='fiscaltime']").val()+'&geography='+$$("input[name='geography']").val()+'&product='+$$("input[name='product']").val()+'&deliverysite='+$$("input[name='deliverysite']").val()+'&pubsector='+$$("input[name='pubsector']").val()
+        var usedeliverysite = '0'
+        if($$("#usedeliverysite").is(':checked')){
+            usedeliverysite = '1'
+        }
+        url = '/verifykpijson/?type=DE'+'&fiscaltime='+$$("input[name='fiscaltime']").val()+'&profitcenterid='+$$("input[name='ProfitCenterID']").val()+'&function='+$$("input[name='FunctionID']").val()+'&deliverysite='+$$("input[name='DeliverySiteID']").val()+'&usedeliverysite='+usedeliverysite
         $$.get(url, function(result){
             os=eval(result);
             p = "<tr>"
@@ -168,6 +167,7 @@ Please input public sector ID:
         })
     }
 </script>
+
 <table id="kpitable">
     <tr>
         <td><h4>KPI ID</h4></td>
@@ -183,19 +183,4 @@ Please input public sector ID:
         <td><h4>YTD</h4></td>
         <td><h4>YTD status</h4></td>
     </tr>
-    $for k in kpis:
-        <tr>
-        <td><a href='../mdxquery/?kpiid=$k.kpiid&queryitem=MTD'>$k.kpiid</a></td>
-        <td>$k.kpiname</td>
-        <td>$k.displaytype</td>
-        <td>$k.baselinetype</td>
-        <td>$k.statustype</td>
-        <td>$k.baseline</td>
-        <td>$k.mtdtarget</td>
-        <td>$k.mtd</td>
-        <td>$k.mtdstatus</td>
-        <td>$k.ytdtarget</td>
-        <td>$k.ytd</td>
-        <td>$k.ytdstatus</td>
-        </tr>
 </table>
