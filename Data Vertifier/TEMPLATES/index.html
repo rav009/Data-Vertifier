@@ -13,12 +13,8 @@
 </head>
 <body>
 
-<div style="padding:20px 50px">
-	<div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline;font-size:large">Loading......</div>
-	<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />
-	<div id="jobstatus" style="margin-top:15px;font-size:large"></div>
+<div style="padding:20px 50px;float:left">
 
-	<br />
 	<select id="dbsel">
 		<option value="Dev">DEV</option>
 		<option value="prod">gbs-cosmos-prod</option>
@@ -90,6 +86,13 @@
 	<a href="/batchexec/" target="view_window">Run SQL script to Multi-Server</a>
 
 	<a href="/backupsql/" target="view_window">Show Backup Sql Script</a>
+</div>
+
+<div style="float:left;padding:18px 0px 0px 250px;">
+	<h2>Status:</h2>
+	<div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline;font-size:large">Loading......</div>
+	<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />
+	<div id="jobstatus" style="margin-top:15px;font-size:large"></div>
 </div>
 
 <script type="text/javascript">
