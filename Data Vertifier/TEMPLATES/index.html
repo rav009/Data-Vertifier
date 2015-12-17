@@ -48,11 +48,29 @@
 			$$.getJSON(u, function(rs){
 				var s = 'Sync Job Information:<br />'
 				for(var key in rs[0]){
-					s += "<div>" + key + " : " + rs[0][key] + "</div>"
+					var v = ''
+					if (rs[0][key].indexOf('Canceled')!=-1){
+						v = '<font color=\'red\'>'+rs[0][key]+'</font>'
+					}else if(rs[0][key].indexOf('Fail')!=-1){
+						v = '<font color=\'red\'>'+rs[0][key]+'</font>'
+					}else{
+						v=rs[0][key]
+					}
+					s += "<div>" + key + " : " + v + "</div>"
 				}
 				s = s + '<br />T4 Job Information:<br />'
 				for(var key in rs[1]){
-					s += "<div>" + key + " : " + rs[1][key] + "</div>"
+					var v = ''
+					if (rs[1][key].indexOf('Canceled')!=-1){
+						v = '<font color=\'red\'>'+rs[1][key]+'</font>'
+					}else if(rs[1][key].indexOf('Fail')!=-1){
+						v = '<font color=\'red\'>'+rs[1][key]+'</font>'
+					}else if(rs[1][key].indexOf('Run')!=-1){
+						v = '<font color=\'red\'>'+rs[1][key]+'</font>'
+					}else{
+						v=rs[1][key]
+					}
+					s += "<div>" + key + " : " + v + "</div>"
 				}
 				$$('#jobstatus').html(s)
 			})
