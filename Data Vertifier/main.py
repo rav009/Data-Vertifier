@@ -9,6 +9,9 @@ import DAO.BatchRunSqlDAO
 import DAO.BackupSQLDAO
 import DAO.MiscellaneousDAO
 import json
+import HTMLParser
+
+html_parser=HTMLParser.HTMLParser()
 
 #global variables and functions
 urls = (
@@ -84,7 +87,11 @@ class MDXQuery:
             qs = querydao.getquery(data['kpiid'], data['queryitem'])
         else:
             qs = []
-        return render.mdxquery(qs)
+        plain_text = ""
+        for q in qs:
+            plain_text += "<b>KPI ID</b>:"+ str(q.kpiid) + "&nbsp&nbsp&nbsp&nbsp&nbsp<b>Part</b>:" + str(q.part) + "<br />"
+            plain_text += "<textarea style='HEIGHT: 600px; WIDTH: 900px'>" + q.query + "</textarea><br />"
+        return plain_text
 
     def POST(self, d):
         data = web.input()
@@ -94,7 +101,6 @@ class MDXQuery:
         else:
             qs = []
         return render.mdxquery(qs)
-
 
 class ExecLog:
     def GET(self):
