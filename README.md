@@ -1,3 +1,5 @@
 # Data-Vertifier
 
-a tool website for MS cdp project to view data in the staging step.
+##Indrution
+A tool website based on web.py for MS cdp project to view and vertify data in the staging environment.
+
