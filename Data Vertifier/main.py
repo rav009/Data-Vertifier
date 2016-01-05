@@ -86,7 +86,7 @@ class MDXQuery:
                 and data['kpiid'] != '':
             qs = querydao.getquery(data['kpiid'], data['queryitem'])
         else:
-            qs = []
+            return render.mdxquery([])
         plain_text = ""
         for q in qs:
             plain_text += "<b>KPI ID</b>:"+ str(q.kpiid) + "&nbsp&nbsp&nbsp&nbsp&nbsp<b>Part</b>:" + str(q.part) + "<br />"
