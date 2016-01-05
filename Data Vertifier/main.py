@@ -9,9 +9,11 @@ import DAO.BatchRunSqlDAO
 import DAO.BackupSQLDAO
 import DAO.MiscellaneousDAO
 import json
-import HTMLParser
 
-html_parser=HTMLParser.HTMLParser()
+#For Https
+# from web.wsgiserver import CherryPyWSGIServer
+# CherryPyWSGIServer.ssl_certificate = "D:\\tmp-program\\Data Vertifier SSL\\v-rewei-pc.crt"
+# CherryPyWSGIServer.ssl_private_key = "D:\\tmp-program\\Data Vertifier SSL\\private.key"
 
 #global variables and functions
 urls = (
