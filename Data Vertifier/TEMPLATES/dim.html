@@ -1,5 +1,12 @@
 $def with (geos, products, deliverysites, teams, times, ps, fun, pcg)
 <title>Dim Snapshot</title>
+<script>
+    function redirect(){
+        var url = get_action()
+        window.navigate(url);
+    }
+</script>
+<input type="button" value="Submit" onclick= 'redirect()'/>
 <style>
     td
     {

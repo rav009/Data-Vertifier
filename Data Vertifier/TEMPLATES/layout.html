@@ -68,9 +68,9 @@ $:content
         i = chref.indexOf('?');
         rs = ''
         if(i==-1){
-            rs = window.location.href + "\?" + getDBSelect()
+            rs = window.location.href + "?" + getDBSelect()
         }else{
-            rs = window.location.href.substring(0,i)+ "\?" +getDBSelect()
+            rs = window.location.href.substring(0,i)+ "?" +getDBSelect()
         }
         //alert(rs)
         return rs
