@@ -10,7 +10,8 @@ $def with (content)
 
 <a href="../index" target="view_window">BACK</a>
 <br />
-<h4 id="cdb" style="display:inline;margin:0px 10px 0px 0px">Current DB is $connstr</h4>
+<br />
+<!--<h4 id="cdb" style="display:inline;margin:0px 10px 0px 0px">Current DB is $$connstr</h4>
 <input type="button" value="refresh" onclick="refreshcdb()"/>
 <script>
     function refreshcdb(){
@@ -23,7 +24,57 @@ $def with (content)
             }
         })
     }
-</script>
+</script>-->
+Please select the environment you want to query:
+<select id="dbsel" onchange="document.forms[0].action = get_action();">
+    <option value="us" selected="selected">gbs-cosmos-us</option>
+    <option value="dev">DEV(v-rewei-pc)</option>
+    <option value="prod">gbs-cosmos-prod</option>
+</select>
 $:content
+<script type="text/javascript">
+    $$.extend({
+        getUrlVars: function () {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        },
+        getUrlVar: function (name) {
+            return $$.getUrlVars()[name];
+        }
+    });
+
+    window.onload = function(){
+        chref = window.location.href
+        i = chref.indexOf('selectdb');
+        if(i!=-1){
+            $$('#dbsel').val($$.getUrlVar('selectdb'))
+        }
+    };
+
+    function getDBSelect(){
+        var s = $$('#dbsel').val()
+        return 'selectdb='+s
+    }
+
+    function get_action() {
+        //alert(window.location.href+'?'+getDBSelect())
+        chref = window.location.href
+        i = chref.indexOf('?');
+        rs = ''
+        if(i==-1){
+            rs = window.location.href + "\?" + getDBSelect()
+        }else{
+            rs = window.location.href.substring(0,i)+ "\?" +getDBSelect()
+        }
+        //alert(rs)
+        return rs
+    }
+</script>
 </body>
 </html>

@@ -20,10 +20,10 @@ urls = (
     '/', 'Index',
     '/index', 'Index',
     '/index/', 'Index',
-    '/mdxquery/(.*)', 'MDXQuery',
+    '/mdxquery/', 'MDXQuery',
     '/execlog/', 'ExecLog',
     '/dim/', 'Dim',
-    '/verifykpi/(.+)', 'VerifyKPI',
+    '/verifykpi/', 'VerifyKPI',
     '/verifykpijson/', 'VerifyKPIJson',
     '/switchdb/', 'SwitchDB',
     '/addnode/', 'AddNode',
@@ -39,41 +39,68 @@ remote_clipboard = []
 connstr_d = 'Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
 connstr_p = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
 connstr_us = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
-current_connstr = connstr_us
 
 def GetCurrentDBName(connstr):
     import re
     p = re.search('data source=([\w-]+);', connstr)
     return p.group(1)
 
-misdao = DAO.MiscellaneousDAO.MiscellaneousDAO(connstr_us)
 
-def createDAO():
-    global querydao
-    querydao = DAO.QueryDAO.QueryDAO(current_connstr)
-    global execlogdao
-    execlogdao = DAO.ExecLogDAO.ExecLogDAO(current_connstr)
-    global dimdao
-    dimdao = DAO.DimDAO.DimDAO(current_connstr)
-    global verifykpidao
-    verifykpidao = DAO.KPIValueDAO.KPIValueDAO(current_connstr)
-    global hierarchydao
-    hierarchydao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
+
+def createGlobalDAO():
     global batchrunSqlDAO
     batchrunSqlDAO = DAO.BatchRunSqlDAO.BatchRunSqlDAO()
     global backupSQLDAO
     backupSQLDAO = DAO.BackupSQLDAO.BackupSQLDAO(connstr_us)
+    global misdao
+    misdao = DAO.MiscellaneousDAO.MiscellaneousDAO(connstr_us)
+#     global querydao
+#     querydao = DAO.QueryDAO.QueryDAO(current_connstr)
+#     global execlogdao
+#     execlogdao = DAO.ExecLogDAO.ExecLogDAO(current_connstr)
+#     global dimdao
+#     dimdao = DAO.DimDAO.DimDAO(current_connstr)
+#     global verifykpidao
+#     verifykpidao = DAO.KPIValueDAO.KPIValueDAO(current_connstr)
+#     global hierarchydao
+#     hierarchydao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
+
+def getRuntimeDAO(data, daoname):
+    if 'selectdb' not in data.keys():
+        current_connstr = connstr_us
+    elif str(data['selectdb']).lower() == 'prod':
+        current_connstr = connstr_p
+    elif str(data['selectdb']).lower() == 'dev':
+        current_connstr = connstr_d
+    else:
+        current_connstr = connstr_us
+    if daoname == 'querydao':
+        dao = DAO.QueryDAO.QueryDAO(current_connstr)
+    elif daoname =='execlogdao':
+        dao = DAO.ExecLogDAO.ExecLogDAO(current_connstr)
+    elif daoname =='dimdao':
+        dao = DAO.DimDAO.DimDAO(current_connstr)
+    elif daoname =='verifykpidao':
+        dao = DAO.KPIValueDAO.KPIValueDAO(current_connstr)
+    elif daoname =='hierarchydao':
+        dao = DAO.HierarchyDAO.HierarchyDAO(current_connstr)
+    else:
+        raise Exception('Unknown dao name!')
+    return dao
 
 
 def createRender():
     global render
-    render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
+    #render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
+    render = web.template.render('templates', base='layout')
     global render_plain
-    render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
+    render_plain = web.template.render('templates')
+    #render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
 
 
-createDAO()
+createGlobalDAO()
 createRender()
+
 
 #PageClass begin
 class Index:
@@ -82,8 +109,9 @@ class Index:
 
 
 class MDXQuery:
-    def GET(self, d):
+    def GET(self):
         data = web.input()
+        querydao = getRuntimeDAO(data, 'querydao')
         if 'kpiid' in data.keys() and 'queryitem' in data.keys() and data['kpiid'] is not None\
                 and data['kpiid'] != '':
             qs = querydao.getquery(data['kpiid'], data['queryitem'])
@@ -95,8 +123,9 @@ class MDXQuery:
             plain_text += "<textarea style='HEIGHT: 600px; WIDTH: 900px'>" + q.query + "</textarea><br />"
         return plain_text
 
-    def POST(self, d):
+    def POST(self):
         data = web.input()
+        querydao = getRuntimeDAO(data, 'querydao')
         if 'kpiid' in data.keys() and 'queryitem' in data.keys() and data['kpiid'] is not None\
                 and data['kpiid'] != '':
             qs = querydao.getquery(data['kpiid'], data['queryitem'])
@@ -110,6 +139,7 @@ class ExecLog:
 
     def POST(self):
         data = web.input()
+        execlogdao = getRuntimeDAO(data, 'execlogdao')
         #print data.keys()
         if 'top' in data.keys():
             bool_ifalllog = 'ifalllog' in data.keys()
@@ -121,6 +151,8 @@ class ExecLog:
 
 class Dim:
     def GET(self):
+        data = web.input()
+        dimdao = getRuntimeDAO(data, 'dimdao')
         geos = dimdao.LoadDimGeography()
         products = dimdao.LoadDimProduct()
         deliverysites = dimdao.LoadDimDeliverySite()
@@ -133,23 +165,26 @@ class Dim:
 
 
 class VerifyKPI:
-    def GET(self, t):
-        if str(t).upper() == 'T4':
-            return render.T4verifykpi([])
-        elif str(t).upper() == 'DE':
-            return render.DeliveryExcellence([])
+    def GET(self):
+        data = web.input()
+        if 't' in data.keys():
+            if str(data['t']).upper() == 'T4':
+                return render.T4verifykpi([])
+            elif str(data['t']).upper() == 'DE':
+                return render.DeliveryExcellence([])
         else:
-            raise Exception('Unknown Parameter: ' + str(t))
+            raise Exception('Unknown Parameter: ' + str(data['t']))
 
 class VerifyKPIJson:
     def GET(self):
         data = web.input()
+        verifykpidao = getRuntimeDAO(data, 'verifykpidao')
         if str(data['type']).upper() == 'DE':
-            return self.DEhandler(data)
+            return self.DEhandler(data, verifykpidao)
         elif str(data['type']).upper() == 'T4':
-            return self.T4handler(data)
+            return self.T4handler(data, verifykpidao)
 
-    def T4handler(self, data):
+    def T4handler(self, data, verifykpidao):
         if 'dashboard' in data.keys():
             dashboard = data['dashboard']
             fiscaltime = data['fiscaltime']
@@ -160,7 +195,7 @@ class VerifyKPIJson:
             kpis = verifykpidao.t4loadkpivalues(dashboard, fiscaltime, geography, product, deliverysite, publicsector)
             return json.dumps([kpi.__dict__ for kpi in kpis])
 
-    def DEhandler(self, data):
+    def DEhandler(self, data, verifykpidao):
         if 'fiscaltime' in data.keys():
             fiscaltime = data['fiscaltime']
             profitcenterid = data['profitcenterid']
@@ -171,28 +206,28 @@ class VerifyKPIJson:
             return json.dumps([kpi.__dict__ for kpi in kpis])
 
 
-class SwitchDB:
-    def GET(self):
-        global current_connstr
-        return GetCurrentDBName(current_connstr)
-
-    def POST(self):
-        '''
-        servername = web.ctx.env['HTTP_USER_AGENT']
-        '''
-        global current_connstr
-        data = web.input()
-        if 'db' in data:
-            if data['db'].lower() == 'prod':
-                current_connstr = connstr_p
-            elif data['db'].lower() == 'dev':
-                current_connstr = connstr_d
-            elif data['db'].lower() == 'us':
-                current_connstr = connstr_us
-            createDAO()
-            createRender()
-            return 'Switch to ' + GetCurrentDBName(current_connstr)
-        return 'Argument Error.'
+# class SwitchDB:
+#     def GET(self):
+#         global current_connstr
+#         return GetCurrentDBName(current_connstr)
+#
+#     def POST(self):
+#         '''
+#         servername = web.ctx.env['HTTP_USER_AGENT']
+#         '''
+#         global current_connstr
+#         data = web.input()
+#         if 'db' in data:
+#             if data['db'].lower() == 'prod':
+#                 current_connstr = connstr_p
+#             elif data['db'].lower() == 'dev':
+#                 current_connstr = connstr_d
+#             elif data['db'].lower() == 'us':
+#                 current_connstr = connstr_us
+#             createDAO()
+#             createRender()
+#             return 'Switch to ' + GetCurrentDBName(current_connstr)
+#         return 'Argument Error.'
 
 
 class AddNode:
@@ -201,16 +236,14 @@ class AddNode:
 
     def POST(self):
         data = web.input()
+        hierarchydao = getRuntimeDAO(data, 'hierarchydao')
         if not data['action']:
             return
         if data['action'].lower() == 'getnewid':
             r = str(data['root']).strip()
             n = str(data['nodepath']).strip()
-            nodefamily = self.Getnewid(r, n)
+            nodefamily = hierarchydao.getnewid(r, n)
             return render.addnode(r, n, nodefamily)
-
-    def Getnewid(self, root, nodepath):
-        return hierarchydao.getnewid(root, nodepath)
 
 
 class Clipboard:

@@ -15,21 +15,6 @@
 
 <div style="padding:20px 50px;float:left">
 
-	<select id="dbsel">
-		<option value="Dev">DEV</option>
-		<option value="prod">gbs-cosmos-prod</option>
-       <option value="US">gbs-cosmos-us</option>
-	</select>
-
-	<input type="button" value="Switch DB" onclick="switchdb()" />
-	<script type="text/javascript">
-		$if connstr.lower() == 'gbs-cosmos-prod':
-			$$('#dbsel').val('prod')
-		$if connstr.lower() == 'gbs-cosmos-us':
-		    $$('#dbsel').val('US')
-		$else:
-			$$('#dbsel').val('Dev')
-	</script>
 
 	<script type="text/javascript">
 		$$.ajaxSetup({cache:false});
@@ -76,26 +61,26 @@
 			})
 		}
 
-		function switchdb(){
-			var d = $$('#dbsel').val()
-			var u = '/switchdb/'
-			$$.post(u, {'db':d}, function(rs){
-				alert(rs)
-			})
-			get_full_increment_mode()
-		}
+		//function switchdb(){
+		//	var d = $$('#dbsel').val()
+		//	var u = '/switchdb/'
+		//	$$.post(u, {'db':d}, function(rs){
+		//		alert(rs)
+		//	})
+		//	get_full_increment_mode()
+		//}
 	</script>
 
-    <br /><br />
+
     <a href="/execlog/" target="view_window">Mdx KPI Browse Logs</a>
 
     <a href="/mdxquery/" target="view_window">Generate MDX Query</a>
 
     <a href="/dim/" target="view_window">Dim ID List</a>
 
-    <a href="/verifykpi/T4" target="view_window">T4 Premier&amp;BC Verify KPI Values</a>
+    <a href="/verifykpi/?t=T4" target="view_window">T4 Premier&amp;BC Verify KPI Values</a>
 
-    <a href="/verifykpi/DE" target="view_window">DeliveryExcellence Verify KPI Values</a>
+    <a href="/verifykpi/?t=DE" target="view_window">DeliveryExcellence Verify KPI Values</a>
 
 	<a href="/addnode/" target="view_window">Add New Hierarchy Node</a>
 
@@ -109,7 +94,7 @@
 <div style="float:left;padding:18px 0px 0px 250px;">
 	<h2>Status:</h2>
 	<div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline;font-size:large">Loading......</div>
-	<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />
+	<!--<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />-->
 	<div id="jobstatus" style="margin-top:15px;font-size:large"></div>
 </div>
 
