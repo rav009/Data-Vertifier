@@ -131,6 +131,7 @@ Please input Fiscaltime ID:
             usedeliverysite = '1'
         }
         url = '/verifykpijson/?type=DE'+'&fiscaltime='+$$("input[name='fiscaltime']").val()+'&profitcenterid='+$$("input[name='ProfitCenterID']").val()+'&function='+$$("input[name='FunctionID']").val()+'&deliverysite='+$$("input[name='DeliverySiteID']").val()+'&usedeliverysite='+usedeliverysite
+        url += '&selectdb=' + $$('#dbsel').val()
         $$.get(url, function(result){
             os=eval(result);
             p = "<tr>"

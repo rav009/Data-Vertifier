@@ -132,6 +132,7 @@ Please input public sector ID:
     function refreshkpi(){
         $$("#kpitable").html("")
         url = '/verifykpijson/?type=T4&dashboard='+$$("input[name='dashboard']").val()+'&fiscaltime='+$$("input[name='fiscaltime']").val()+'&geography='+$$("input[name='geography']").val()+'&product='+$$("input[name='product']").val()+'&deliverysite='+$$("input[name='deliverysite']").val()+'&pubsector='+$$("input[name='pubsector']").val()
+        url += '&selectdb=' + $$('#dbsel').val()
         $$.get(url, function(result){
             os=eval(result);
             p = "<tr>"

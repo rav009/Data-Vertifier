@@ -23,7 +23,7 @@ urls = (
     '/mdxquery/', 'MDXQuery',
     '/execlog/', 'ExecLog',
     '/dim/', 'Dim',
-    '/verifykpi/', 'VerifyKPI',
+    '/verifykpi/(.+)', 'VerifyKPI',
     '/verifykpijson/', 'VerifyKPIJson',
     '/switchdb/', 'SwitchDB',
     '/addnode/', 'AddNode',
@@ -165,15 +165,15 @@ class Dim:
 
 
 class VerifyKPI:
-    def GET(self):
+    def GET(self, t):
         data = web.input()
-        if 't' in data.keys():
-            if str(data['t']).upper() == 'T4':
-                return render.T4verifykpi([])
-            elif str(data['t']).upper() == 'DE':
-                return render.DeliveryExcellence([])
+        if str(t).upper() == 'T4':
+            return render.T4verifykpi([])
+        elif str(t).upper() == 'DE':
+            return render.DeliveryExcellence([])
         else:
-            raise Exception('Unknown Parameter: ' + str(data['t']))
+            raise Exception('Unknown Parameter: ' + str(t))
+
 
 class VerifyKPIJson:
     def GET(self):
