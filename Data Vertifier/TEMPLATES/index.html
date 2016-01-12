@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset=utf-8"/>
 <title>Welcome to CDP Helper</title>
  <style>
+	* {
+		font-family: "Microsoft YaHei" ! important;
+	}
+
     a
     {
-        margin-top:15px;
-        display:block
+       margin-top:9px;
+	 	margin-bottom:9px;
+       display:block;
+       white-space:nowrap;
     }
+
+	 h3
+	 {
+	 	margin-top:4px;
+	 }
  </style>
 	<script src="../static/jquery-1.11.1.min.js" type="text/javascript"></script>
 </head>
-<body>
-
-<div style="padding:20px 50px;float:left">
-
-
-	<script type="text/javascript">
+<body style="background-color: #00bfff;margin:20px 50px">
+<script type="text/javascript">
 		$$.ajaxSetup({cache:false});
 
        function get_full_increment_mode(){
@@ -70,32 +78,40 @@
 		//	get_full_increment_mode()
 		//}
 	</script>
+<div style="padding:10px 50px;background-color:white;width:auto">
 
+    <a href="/execlog/" target="view_window">T4 Mdx KPI Operation Log</a>
 
-    <a href="/execlog/" target="view_window">Mdx KPI Browse Logs</a>
+    <a href="/mdxquery/" target="view_window">T4 MDX Statment Query</a>
 
-    <a href="/mdxquery/" target="view_window">Generate MDX Query</a>
+    <a href="/verifykpi/T4" target="view_window">T4 Premier&amp;BC StagingDB Preview</a>
 
-    <a href="/dim/" target="view_window">Dim ID List</a>
-
-    <a href="/verifykpi/T4" target="view_window">T4 Premier&amp;BC Verify KPI Values</a>
-
-    <a href="/verifykpi/DE" target="view_window">DeliveryExcellence Verify KPI Values</a>
-
-	<a href="/addnode/" target="view_window">Add New Hierarchy Node</a>
-
+    <a href="/verifykpi/DE" target="view_window">T4 DeliveryExcellence StagingDB Preview</a>
+	<!--<a href="/addnode/" target="view_window">Add New Hierarchy Node for </a>-->
+	<a href="/dim/" target="view_window">Dimension List</a>
 	<a href="/clipboard/" target="view_window">Clipboard</a>
 
-	<a href="/batchexec/" target="view_window">Run SQL script to Multi-Server</a>
+	<a href="/batchexec/" target="view_window">Run SQL scripts to multiple environments</a>
 
-	<a href="/backupsql/" target="view_window">Show Backup Sql Script</a>
+	<a href="/backupsql/" target="view_window">Show Backup Sql Scripts</a>
+
 </div>
 
-<div style="float:left;padding:18px 0px 0px 250px;">
-	<h2>Status:</h2>
-	<div id="full_increment" style="margin-top:15px;margin-right:5px;display:inline;font-size:large">Loading......</div>
+<div style="margin-top:20px;padding:10px 50px;background-color:white;width:auto;height:355px">
+	<h3>Job Status</h3>
+	<div id="full_increment" style="margin-top:0px;margin-right:5px;display:inline;font-size:large">Loading......</div>
 	<!--<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />-->
 	<div id="jobstatus" style="margin-top:15px;font-size:large"></div>
+</div>
+
+<div style="margin-top:20px;padding:10px 50px;background-color:white;width:auto;height:250px;">
+	<h3>Quick Navigation</h3>
+	<div style="margin:9px 0px"><a href="https://microsoft.sharepoint.com/teams/AsiaBOM/BusinessIntelligence/_layouts/15/start.aspx#/Cosmos/Home.aspx" style="display:inline" target="view_window">CDP Wiki Page</a> CDP官方Wiki </div>
+	<div style="margin:9px 0px"><a href="https://ramweb/" style="display:inline" target="view_window">Resource Access Manager</a> 申请权限就点它</div>
+	<div style="margin:9px 0px"><a href="https://mymicrosoftit.microsoft.com/" style="display:inline" target="view_window">ECO Ticket</a> Detego又出问题了,给他们上Ticket</div>
+	<div style="margin:9px 0px"><a href="https://microsoft.sharepoint.com/teams/AsiaBOM/BusinessIntelligence/_layouts/15/WopiFrame.aspx?sourcedoc={31DAA3F8-6F2F-4CC0-BE0C-B7909CE3BC60}&file=CDP%20Workspace&action=default&d=w31daa3f86f2f4cc0be0cb7909ce3bc60&RootFolder=%2fteams%2fAsiaBOM%2fBusinessIntelligence%2fShared%20Documents%2fCDP%20Workspace%2fCDP%20Workspace" style="display:inline" target="view_window">Sync Job Monitor Duty Report</a> 听说这周轮到你执勤?</div>
+	<div style="margin:9px 0px"><a href="http://bitfs:8080/tfs/DefaultCollection/COSMOS/_backlogs#_a=backlog&hub=Backlog%20items" style="display:inline" target="view_window">CDP Team Backlog Items</a> 看看这个Sprint有些啥事</div>
+	<div style="margin:9px 0px"><a href="https://www.yammer.com/microsoft.com/#/inbox/index" style="display:inline" target="view_window">Yammer</a> 售后服务论坛</div>
 </div>
 
 <script type="text/javascript">

@@ -261,7 +261,7 @@ class GetFullIncrementMode:
     def GET(self):
         t = misdao.LoadFullIncrementMode()
         if t:
-            return 'gbs-cosmos-us server T4 Current Mode is ' + t[0] + ', update on ' + t[1]
+            return 'T4 Current Mode is ' + t[0] + ', update on ' + t[1]
         else:
             return 'No mode info!'
 
