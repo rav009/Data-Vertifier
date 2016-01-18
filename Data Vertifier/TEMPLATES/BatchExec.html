@@ -41,5 +41,9 @@ Select which Server to Run your script:
     <br />
     <input type="submit" value="Submit My Script" />
     <br />
-    <div style="font-size: 20pt;color:red" id="msg">$message</div>
+    <div style="font-size: 16pt;color:red" id="msg">
+        $for i in str(message).split('\n'):
+            $i
+            <br />
+    </div>
 </form>

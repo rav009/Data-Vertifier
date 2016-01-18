@@ -94,7 +94,7 @@ def createRender():
     #render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
     render = web.template.render('templates', base='layout')
     global render_plain
-    render_plain = web.template.render('templates')
+    render_plain = web.template.render('templates',globals={"str":str})
     #render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
 
 
@@ -261,7 +261,7 @@ class GetFullIncrementMode:
     def GET(self):
         t = misdao.LoadFullIncrementMode()
         if t:
-            return 'T4 Current Mode is ' + t[0] + ', update on ' + t[1]
+            return 'T4 Package Current Mode is ' + t[0] + ', updated on ' + t[1]
         else:
             return 'No mode info!'
 
