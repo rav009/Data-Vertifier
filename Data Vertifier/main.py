@@ -18,6 +18,7 @@ import json
 #global variables and functions
 urls = (
     '/', 'Index',
+    '/favicon.ico', 'icon',
     '/index', 'Index',
     '/index/', 'Index',
     '/mdxquery/', 'MDXQuery',
@@ -103,6 +104,10 @@ createRender()
 
 
 #PageClass begin
+class icon:
+    def GET(self):
+        raise web.seeother("/static/favicon.ico")
+
 class Index:
     def GET(self):
         return render_plain.index()
@@ -268,11 +273,18 @@ class GetFullIncrementMode:
 
 class GetJobStatus:
     def GET(self):
+        joblists = ['CDP_BootStrap',
+                    'Sync',
+                    'Cosmos_KPIValue_CTS_GPS_Daily',
+                    'Cosmos_CommonTables_CTSLabor_Daily_CDP',
+                    'Cosmos_CommonTables_CTSMSVoice_Daily_CDP',
+                    'Cosmos_CommonTables_CTSDim_Daily_CDP',
+                    'Cosmos_CommonTables_CTSServiceRequest_Daily_CDP',
+                    'Cosmos_CommonTables_PFE_Daily_CDP']
+        ts = misdao.LoadJobStatus(joblists)
         rs = []
-        t1 = misdao.LoadSyncJobStatus()
-        rs.append(self.jobqueryhandler(t1))
-        t2 = misdao.LoadT4JobStatus()
-        rs.append(self.jobqueryhandler(t2))
+        for t in ts:
+            rs.append(self.jobqueryhandler(t))
         #print json.dumps(rs)
         return json.dumps(rs)
 

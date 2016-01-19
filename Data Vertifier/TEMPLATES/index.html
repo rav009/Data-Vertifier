@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
 <head>
 	<meta charset=utf-8"/>
-<title>Welcome to CDP Helper</title>
- <style>
+	<link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon" />
+ 	<title>Welcome to CDP Helper</title>
+ 	<style>
 	* {
 		font-family: "Microsoft YaHei" ! important;
 	}
@@ -22,64 +22,11 @@
 	 	margin-bottom:7px;
 	 }
  </style>
-	<script src="../static/jquery-1.11.1.min.js" type="text/javascript"></script>
+ 	<script src="../static/jquery-1.11.1.min.js" type="text/javascript"></script>
 </head>
 <body style="background-color: #00bfff;margin:20px 50px">
-<script type="text/javascript">
-		$$.ajaxSetup({cache:false});
-
-       function get_full_increment_mode(){
-		    var u = '/getfimode/'
-		    $$.get(u, function(rs){
-		    	//alert(rs)
-				$$('#full_increment').html(rs)
-			})
-		}
-
-		function getsyncstatus(){
-			var u = '/getjobstatus/'
-
-			$$.getJSON(u, function(rs){
-				var s = 'Sync Job Information:<br />'
-				for(var key in rs[0]){
-					var v = ''
-					if (rs[0][key].indexOf('Canceled')!=-1){
-						v = '<font color=\'red\'>'+rs[0][key]+'</font>'
-					}else if(rs[0][key].indexOf('Fail')!=-1){
-						v = '<font color=\'red\'>'+rs[0][key]+'</font>'
-					}else{
-						v=rs[0][key]
-					}
-					s += "<div>" + key + " : " + v + "</div>"
-				}
-				s = s + '<br />T4 Job Information:<br />'
-				for(var key in rs[1]){
-					var v = ''
-					if (rs[1][key].indexOf('Canceled')!=-1){
-						v = '<font color=\'red\'>'+rs[1][key]+'</font>'
-					}else if(rs[1][key].indexOf('Fail')!=-1){
-						v = '<font color=\'red\'>'+rs[1][key]+'</font>'
-					}else if(rs[1][key].indexOf('Run')!=-1){
-						v = '<font color=\'red\'>'+rs[1][key]+'</font>'
-					}else{
-						v=rs[1][key]
-					}
-					s += "<div>" + key + " : " + v + "</div>"
-				}
-				$$('#jobstatus').html(s)
-			})
-		}
-
-		//function switchdb(){
-		//	var d = $$('#dbsel').val()
-		//	var u = '/switchdb/'
-		//	$$.post(u, {'db':d}, function(rs){
-		//		alert(rs)
-		//	})
-		//	get_full_increment_mode()
-		//}
-	</script>
-<div style="padding:10px 50px;background-color:white;width:720px;float:left;margin-right:40px;height:660px">
+<div style="float:left">
+<div style="padding:10px 50px;background-color:white;width:720px;margin-right:40px;height:390px">
 	<h3>CDP Helper</h3>
     <a href="/execlog/" target="view_window">T4 Mdx KPI Operation Log</a>
 
@@ -97,15 +44,8 @@
 	<a href="/backupsql/" target="view_window">Show Backup Sql Scripts</a>
 
 </div>
-<div style="float:left">
-<div style="padding:10px 50px;background-color:white;width:500px;height:370px">
-	<h3>Job Status</h3>
-	<div id="full_increment" style="margin-top:0px;margin-right:5px;display:inline;font-size:large">Loading......</div>
-	<!--<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />-->
-	<div id="jobstatus" style="margin-top:15px;font-size:large"></div>
-</div>
 
-<div style="margin-top:20px;padding:10px 50px;background-color:white;width:500px;height:250px;">
+<div style="margin-top:20px;padding:10px 50px;background-color:white;width:720px;height:250px;">
 	<h3>Quick Navigation</h3>
 	<div style="margin:9px 0px"><a href="https://microsoft.sharepoint.com/teams/AsiaBOM/BusinessIntelligence/_layouts/15/start.aspx#/Cosmos/Home.aspx" style="display:inline" target="view_window">CDP Wiki Page</a> CDP官方Wiki </div>
 	<div style="margin:9px 0px"><a href="https://ramweb/" style="display:inline" target="view_window">Resource Access Manager</a> 申请权限就点它</div>
@@ -116,7 +56,61 @@
 	<div style="margin:9px 0px"><a href="http://productsweb/product.aspx?productnameid=2972&status=3&platformid=-999&category=1" style="display:inline" target="view_window">ProductsWeb</a> VS,SQL,Office等软件下载</div>
 </div>
 </div>
+
+<div style="padding:10px 50px;background-color:white;width:500px;height:680px;overflow-y:scroll;">
+	<h3>Job Status</h3>
+	<div id="full_increment" style="margin-top:0px;margin-right:5px;display:inline;font-size:large"></div>
+	<!--<input type="button" value="Refresh" onclick="get_full_increment_mode()" style="display:none" />-->
+	<div id="jobstatus" style="margin-top:15px;font-size:large">Loading......</div>
+</div>
+
+
 <script type="text/javascript">
+		$$.ajaxSetup({cache:false});
+
+       function get_full_increment_mode(){
+		    var u = '/getfimode/'
+		    $$.get(u, function(rs){
+		    	//alert(rs)
+				$$('#full_increment').html(rs)
+			})
+		}
+
+		function getsyncstatus(){
+			var u = '/getjobstatus/'
+			$$.getJSON(u, function(rs){
+				var s = ''
+				for(var i =0;i<rs.length;i++){
+					s += "<div>" + rs[i]["Job Name"] + "</div>"
+					for(var key in rs[i]){
+						if(key == "Job Name"){
+							continue;
+						}
+						var v = ''
+						if (rs[i][key].indexOf('Canceled')!=-1){
+							v = '<font color=\'red\'>'+rs[i][key]+'</font>'
+						}else if(rs[i][key].indexOf('Fail')!=-1){
+							v = '<font color=\'red\'>'+rs[i][key]+'</font>'
+						}else{
+							v=rs[i][key]
+						}
+						s += "<div>" + key + " : " + v + "</div>"
+					}
+					s +="<br />"
+				}
+				$$('#jobstatus').html(s)
+			})
+		}
+
+		//function switchdb(){
+		//	var d = $$('#dbsel').val()
+		//	var u = '/switchdb/'
+		//	$$.post(u, {'db':d}, function(rs){
+		//		alert(rs)
+		//	})
+		//	get_full_increment_mode()
+		//}
+
 	get_full_increment_mode();
 	getsyncstatus();
 </script>

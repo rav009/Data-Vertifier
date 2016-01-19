@@ -32,6 +32,27 @@ class MiscellaneousDAO(DAO.SqlServerDAO.SqlServerDAO):
             _conn.close()
             return rs
 
+    def LoadJobStatus(self, joblists):
+        rrs = []
+        for jobname in joblists:
+            sql = ('EXEC msdb.dbo.sp_help_job @Job_name = \'{0}\',@job_aspect = N\'JOB\' ;').format(jobname)
+            rs = {'Job Name': jobname}
+            _conn = self.returnconn(self.connstr)
+            cursor = _conn.cursor()
+            cursor.execute(sql)
+            try:
+                row = cursor.fetchone()
+                if row is not None:
+                    for k in self.jobstatus_struct.keys():
+                        rs[k] = row[self.jobstatus_struct[k]]
+                    rrs.append(rs)
+            except Exception as ext:
+                print ext.message
+            finally:
+                cursor.close()
+                _conn.close()
+        return rrs
+
     def LoadSyncJobStatus(self):
         sql = ('EXEC msdb.dbo.sp_help_job @Job_name = \'{0}\',@job_aspect = N\'JOB\' ;').format(self.syncjobname)
         rs = None
