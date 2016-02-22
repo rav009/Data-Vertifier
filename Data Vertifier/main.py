@@ -53,8 +53,10 @@ def createGlobalDAO():
     batchrunSqlDAO = DAO.BatchRunSqlDAO.BatchRunSqlDAO()
     global backupSQLDAO
     backupSQLDAO = DAO.BackupSQLDAO.BackupSQLDAO(connstr_us)
-    global misdao
-    misdao = DAO.MiscellaneousDAO.MiscellaneousDAO(connstr_us)
+    global misdao_us
+    misdao_us = DAO.MiscellaneousDAO.MiscellaneousDAO(connstr_us)
+    global misdao_prod
+    misdao_prod = DAO.MiscellaneousDAO.MiscellaneousDAO(connstr_p)
 #     global querydao
 #     querydao = DAO.QueryDAO.QueryDAO(current_connstr)
 #     global execlogdao
@@ -264,7 +266,7 @@ class Clipboard:
 
 class GetFullIncrementMode:
     def GET(self):
-        t = misdao.LoadFullIncrementMode()
+        t = misdao_us.LoadFullIncrementMode()
         if t:
             return 'T4 Package Current Mode is ' + t[0] + ', updated on ' + t[1]
         else:
@@ -281,8 +283,11 @@ class GetJobStatus:
                     'Cosmos_CommonTables_CTSDim_Daily_CDP',
                     'Cosmos_CommonTables_CTSServiceRequest_Daily_CDP',
                     'Cosmos_CommonTables_PFE_Daily_CDP']
-        ts = misdao.LoadJobStatus(joblists)
+        ts = misdao_us.LoadJobStatus(joblists)
         rs = []
+        for t in ts:
+            rs.append(self.jobqueryhandler(t))
+        ts = misdao_prod.LoadJobStatus(['__DigIt_BootStrap_Daily'])
         for t in ts:
             rs.append(self.jobqueryhandler(t))
         #print json.dumps(rs)
