@@ -17,9 +17,9 @@ class SqlServerDAO(object):
 
     def returnconn(self, _connstr = None):
         if not _connstr:
-            return adodbapi.connect(self.connstr)
+            return adodbapi.connect(self.connstr, timeout=500)
         else:
-            return adodbapi.connect(_connstr)
+            return adodbapi.connect(_connstr, timeout=500)
 
     def closeconnect(self):
         self.conn.close()
