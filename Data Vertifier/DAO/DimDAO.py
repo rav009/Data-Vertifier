@@ -85,7 +85,28 @@ class DimDAO(DAO.SqlServerDAO.SqlServerDAO):
         sql = 'select functionid, FunctionName from dashboard.DimFunction'
         return self.LoadData2Col(sql)
 
-
     def LoadDimPCGeography(self):
         sql = 'select PCGeographyID, FullName from dashboard.DimPCGeography'
         return self.LoadData2Col(sql)
+
+class CSA_DimDAO(DimDAO):
+    def __init__(self, connstr):
+        super(CSA_DimDAO, self).__init__(connstr)
+
+    def LoadMeasure(self):
+        rs = []
+        sql = 'SELECT id,[DisplayName],[Perspective],[Baseline] FROM [CSA_DM].[dbo].[DimMeasure] order by id'
+        conn = self.returnconn()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        try:
+            row = cursor.fetchone()
+            while row is not None:
+                rs.append((row[0], row[1], row[2], row[3]))
+                row = cursor.fetchone()
+        except Exception as ext:
+            print ext.message
+        finally:
+            cursor.close()
+            conn.close()
+            return rs

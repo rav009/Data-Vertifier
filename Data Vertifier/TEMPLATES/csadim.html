@@ -1,0 +1,33 @@
+$def with (ms)
+<title>CSA Dimensions List</title>
+
+<style>
+    td
+    {
+        min-width:80px
+    }
+    div{
+        height:800px;
+        overflow-y:scroll;
+        margin:10px 10px;
+        float:left;
+		 width:600px;
+    }
+</style>
+
+<div>
+    Measure List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+            <td>BaselineType</td>
+        </tr>
+    $for m in ms:
+        <tr>
+            <td>$m[0]</td>
+            <td>$m[1]</td>
+            <td>$m[3]</td>
+        </tr>
+</table>
+</div>
