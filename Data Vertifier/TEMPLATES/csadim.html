@@ -1,21 +1,25 @@
-$def with (ms)
+$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, deliverysites, supporttype)
 <title>CSA Dimensions List</title>
 
 <style>
     td
     {
-        min-width:80px
+        min-width:60px
     }
     div{
         height:800px;
-        overflow-y:scroll;
+        overflow-y:auto;
         margin:10px 10px;
         float:left;
-		 width:600px;
+		 width:300px;
+        background-color: #fff;
+    }
+    body{
+        background-color: #99ffff;
     }
 </style>
 
-<div>
+<div style="width:580px">
     Measure List
     <table>
         <tr>
@@ -29,5 +33,143 @@ $def with (ms)
             <td>$m[1]</td>
             <td>$m[3]</td>
         </tr>
-</table>
+    </table>
 </div>
+
+<div style="width:480px">
+    Customer Geo List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in geos:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    Products List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in products:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="height:290px">
+    Cloud Product Filter
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in cloudfilter:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="height:280px">
+    LifeCycle List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in lifecycle:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="height:190px">
+    Target Version List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in targetversion:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="width:580px">
+    Datasource List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in datasource:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="width:480px">
+    SupportType List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Level1 / Level2</td>
+        </tr>
+    $for i in supporttype:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    DeliverySites List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in deliverysites:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    Customer Audience
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in customeraudience:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+
+

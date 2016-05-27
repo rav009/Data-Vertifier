@@ -110,3 +110,39 @@ class CSA_DimDAO(DimDAO):
             cursor.close()
             conn.close()
             return rs
+
+    def LoadDimGeography(self):
+        sql = 'select [ID],[DisplayName] from [dbo].[DimCustomerGeography]'
+        return self.LoadData2Col(sql)
+
+    def LoadDimProduct(self):
+        sql = 'select [ID],[DisplayName] from [dbo].[DimProduct]'
+        return self.LoadData2Col(sql)
+
+    def LoadCustomerAudience(self):
+        sql = 'select [ID],displayname from [dbo].[DimCustomerAudience]'
+        return self.LoadData2Col(sql)
+
+    def LoadCloudOnPremiseFilter(self):
+        sql = 'select [ID],displayname from [dbo].[DimCloudProductsFilter]'
+        return self.LoadData2Col(sql)
+
+    def LoadLifecycle(self):
+        sql = 'select [Code],[Support Lifecycle] from [dbo].[DimLifecycle]'
+        return self.LoadData2Col(sql)
+
+    def LoadTargetVersion(self):
+        sql = 'select [ID],[DisplayName] from [dbo].[DimTargetVersion]'
+        return self.LoadData2Col(sql)
+
+    def LoadDataSource(self):
+        sql = 'select [Code],[Name] from [dbo].[DimDataSource]'
+        return self.LoadData2Col(sql)
+
+    def LoadDimDeliverySite(self):
+        sql = 'select [ID],[DisplayName] from [dbo].[DimDeliveryGeography]'
+        return self.LoadData2Col(sql)
+
+    def LoadSupportType(self):
+        sql ='select [code],[Support Type Level 1]+\' / \'+[Support Type Level 2] from [dbo].[DimSupportType]'
+        return self.LoadData2Col(sql)
