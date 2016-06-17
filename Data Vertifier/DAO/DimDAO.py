@@ -120,11 +120,11 @@ class CSA_DimDAO(DimDAO):
         return self.LoadData2Col(sql)
 
     def LoadCustomerAudience(self):
-        sql = 'select [ID],displayname from [dbo].[DimCustomerAudience]'
+        sql = 'select [Code],[Scorecard Audience L4] from [dbo].[DimCustomerAudience]'
         return self.LoadData2Col(sql)
 
     def LoadCloudOnPremiseFilter(self):
-        sql = 'select [ID],displayname from [dbo].[DimCloudProductsFilter]'
+        sql = 'select [code],[name] from [dbo].[DimCloudProductsFilter]'
         return self.LoadData2Col(sql)
 
     def LoadLifecycle(self):
