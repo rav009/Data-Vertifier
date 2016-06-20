@@ -140,7 +140,7 @@ class CSA_DimDAO(DimDAO):
         return self.LoadData2Col(sql)
 
     def LoadDimDeliverySite(self):
-        sql = 'select [ID],[DisplayName] from [dbo].[DimDeliveryGeography]'
+        sql = 'select [Code],[ScorecardDeliveryGeoLevel4] from [dbo].[DimDeliveryGeography]'
         return self.LoadData2Col(sql)
 
     def LoadSupportType(self):
