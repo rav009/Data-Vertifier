@@ -95,7 +95,7 @@ class CSA_DimDAO(DimDAO):
 
     def LoadMeasure(self):
         rs = []
-        sql = 'SELECT id,[DisplayName],[Perspective],[Baseline] FROM [CSA_DM].[dbo].[DimMeasure] order by id'
+        sql = 'SELECT id,[Name]+\'/\'+isnull([DisplayName],\'\'),[Perspective],[Baseline] FROM [CSA_DM].[dbo].[DimMeasure] order by id'
         conn = self.returnconn()
         cursor = conn.cursor()
         cursor.execute(sql)
