@@ -116,7 +116,8 @@ class CSA_DimDAO(DimDAO):
         return self.LoadData2Col(sql)
 
     def LoadDimProduct(self):
-        sql = 'select [ID],[DisplayName] from [dbo].[DimProduct]'
+        #sql = 'select ID, DISPLAYNAME from [dbo].[DimProduct]'
+        sql = 'select [Code],[Scorecard Product L4] from [dbo].[DimProduct]'
         return self.LoadData2Col(sql)
 
     def LoadCustomerAudience(self):
