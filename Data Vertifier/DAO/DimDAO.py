@@ -112,7 +112,8 @@ class CSA_DimDAO(DimDAO):
             return rs
 
     def LoadDimGeography(self):
-        sql = 'select [ID],[DisplayName] from [dbo].[DimCustomerGeography]'
+        #sql = 'select [ID],[DisplayName] from [dbo].[DimCustomerGeography]'
+        sql = 'select [Code],[Name] from [dbo].[DimCustomerGeography]'
         return self.LoadData2Col(sql)
 
     def LoadDimProduct(self):
