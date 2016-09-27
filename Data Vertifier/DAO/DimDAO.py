@@ -148,3 +148,7 @@ class CSA_DimDAO(DimDAO):
     def LoadSupportType(self):
         sql ='select [code],[Support Type Level 1]+\' / \'+[Support Type Level 2] from [dbo].[DimSupportType]'
         return self.LoadData2Col(sql)
+
+    def LoadCSSCostAllocation(self):
+        sql = 'SELECT [ID],[LOB]+\'/\'+[CSSTargetProduct]+\'/\'+[ProductFamilyName] as b FROM [CSA_DM].[dbo].[DimCSSCostAllocation]'
+        return self.LoadData2Col(sql)

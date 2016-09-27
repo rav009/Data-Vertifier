@@ -1,4 +1,4 @@
-$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, deliverysites, supporttype)
+$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, deliverysites, supporttype,  costallocation)
 <title>CSA Dimensions List</title>
 
 <style>
@@ -164,6 +164,21 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
             <td>Scorecard Audience L4</td>
         </tr>
     $for i in customeraudience:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="width:580px">
+    CSS Cost Allocation
+    <table>
+        <tr>
+            <td>Code</td>
+            <td>LOB + NAME</td>
+        </tr>
+    $for i in costallocation:
         <tr>
             <td>$i[0]</td>
             <td>$i[1]</td>
