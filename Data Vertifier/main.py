@@ -1,4 +1,10 @@
 __author__ = 'v-rewei'
+
+import sys
+daolib = "D:/tmp-program/Data Vertifier/Data Vertifier/DAO"
+if not daolib in sys.path:
+    sys.path.insert(0, daolib)
+
 import web
 import DAO.QueryDAO
 import DAO.ExecLogDAO
@@ -33,7 +39,7 @@ urls = (
     '/getjobstatus/', 'GetJobStatus',
     '/batchexec/', 'BatchExec',
     '/backupsql/', 'BackupSQL',
-    '/csadim/', 'CSA_handler.CSADim'
+    '/csadim/#', 'CSA_handler.CSADim'
 )
 
 remote_clipboard = []
@@ -95,9 +101,9 @@ def getRuntimeDAO(data, daoname):
 def createRender():
     global render
     #render = web.template.render('templates', base='layout', globals={"connstr": GetCurrentDBName(current_connstr)})
-    render = web.template.render('templates', base='layout')
+    render = web.template.render('D:\\tmp-program\\Data Vertifier\\Data Vertifier\\templates', base='layout')
     global render_plain
-    render_plain = web.template.render('templates',globals={"str":str})
+    render_plain = web.template.render('D:\\tmp-program\\Data Vertifier\\Data Vertifier\\templates', globals={"str":str})
     #render_plain = web.template.render('templates', globals={"connstr": GetCurrentDBName(current_connstr)})
 
 
@@ -404,7 +410,7 @@ class BackupSQL:
         return self.backuptpl.format(dbname, bkfullname, mfullname)
 
 
-app = web.application(urls, globals())
+application = web.application(urls, globals()).wsgifunc()
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+    #application = web.application(urls, globals()).wsgifunc()
