@@ -1,0 +1,70 @@
+0. Python, pip和web.py的安装就不说了
+
+1. 安装64位的apache, 64位windows的apache没有官方的编译版本, 可以从第三方编译版本的网站下载:
+https://www.apachehaus.com/cgi-bin/download.plx?dli=wYy8GehlXWz0kan9SZWJVWJVlUGRVYSlXUth2d
+
+2. 安装apache服务
+用管理员权限启动windows命令行程序, cd到apache24的bin目录, 下面是apache常用的命令:
+
+httpd -k install  
+httpd -k uninstall  
+httpd -k start  
+httpd -k stop  
+
+3. wsgi的安装:
+可以去著名的python module集成网站下载到wsgi对应apache2.4和py27的版本(mod_wsgi-4.4.23+ap24vc9-cp27-cp27m-win_amd64.whl):
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+使用pip安装下载下来的whl包, 然后可以在python的安装目录找到编译好的mod_wsgi.so文件
+
+4. 把mod_wsgi.so复制到apache24的modules目录下
+
+5. 修改apache24的conf目录下的httpd.conf文件
+参考文献: http://www.cnblogs.com/rollenholt/archive/2012/08/09/2631068.html
+关键部分:
+
+LoadModule wsgi_module modules/mod_wsgi.so  
+   
+WSGIScriptAlias /webapp "D:/develop/webapp/index.py/"  
+   
+Alias /webapp/static "D:/develop/webapp/static/"  
+AddType text/html .py  
+   
+<Directory "D:/develop/webapp/">  
+    AllowOverride all  
+    Options Indexes FollowSymLinks  ExecCGI  
+    Order allow,deny  
+    SetHandler wsgi-script  
+    Allow from all  
+</Directory>  
+
+6. 修正web.py主文件
+参加:http://webpy.org/cookbook/mod_wsgi-apache
+
+application = web.application(urls, globals()).wsgifunc()  
+
+
+7. 调试
+访问数据库权限:
+办法有二: 
+数据库连接字符串中注明User ID 和 Password
+在windows的服务中配置服务以某个帐号启动
+
+静态文件夹的配置:
+<IfModule alias_module>  
+....  
+Alias /static/ "D:/tmp-program/Data Vertifier/Data Vertifier/static/"  
+...
+</IfModule>  
+  
+<Directory "D:/tmp-program/Data Vertifier/Data Vertifier/static/">  
+    Require all granted  
+    Options -ExecCGI  
+    SetHandler None  
+</Directory>  
+
+
+web.py报Template文件无法找到:
+在web.py中指明Template的全路径
+
+python import问题:
+未完待续
