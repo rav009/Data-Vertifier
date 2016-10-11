@@ -102,6 +102,3 @@ class Index:
 
 
 application = web.application(urls, globals()).wsgifunc()
-
-#if __name__ == '__main__':
-    #application = web.application(urls, globals()).wsgifunc()

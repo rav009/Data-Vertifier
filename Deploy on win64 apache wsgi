@@ -67,4 +67,13 @@ web.py报Template文件无法找到:
 在web.py中指明Template的全路径
 
 python import问题:
-未完待续
+在web.py入口文件最开始加入下面这段, 把项目的根目录添加到sys.path中去
+import sys  
+daolib = "D:\\tmp-program\\Data Vertifier\\Data Vertifier\\"  
+if not daolib in sys.path:  
+    sys.path.insert(0, daolib)  
+
+比如根目录中有一个子目录叫DAO, DAO中有个类叫Adao, python文件引用这个类时就写成:
+import DAO.Adao  
+
+
