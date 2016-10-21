@@ -14,7 +14,6 @@ class CSADim:
         lifecycle = dimdao.LoadLifecycle()
         targetversion = dimdao.LoadTargetVersion()
         datasource = dimdao.LoadDataSource()
-        deliverysites = dimdao.LoadDimDeliverySite()
         supporttype = dimdao.LoadSupportType()
         costallocation = dimdao.LoadCSSCostAllocation()
-        return main.render_plain.csadim(measures, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, deliverysites, supporttype, costallocation)
+        return main.render_plain.csadim(measures, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource,supporttype, costallocation)

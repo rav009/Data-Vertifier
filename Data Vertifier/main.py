@@ -44,7 +44,7 @@ urls = (
 connstr_d = 'Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
 connstr_p = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-prod;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
 connstr_us = 'Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
-connstr_csa = 'Provider=SQLOLEDB.1;data source=mastvm03;initial catalog=CSA_DM;Integrated Security=SSPI;'
+connstr_csa = 'Provider=SQLOLEDB.1;data source=mastvm04;initial catalog=CSA_DM;Integrated Security=SSPI;'
 
 def GetCurrentDBName(connstr):
     import re

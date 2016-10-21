@@ -1,4 +1,4 @@
-$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, deliverysites, supporttype,  costallocation)
+$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, supporttype,  costallocation)
 <title>CSA Dimensions List</title>
 
 <style>
@@ -66,7 +66,7 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
     </table>
 </div>
 
-<div style="height:290px">
+<div>
     Cloud Product Filter
     <table>
         <tr>
@@ -74,36 +74,6 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
             <td>Name</td>
         </tr>
     $for i in cloudfilter:
-        <tr>
-            <td>$i[0]</td>
-            <td>$i[1]</td>
-        </tr>
-    </table>
-</div>
-
-<div style="height:280px">
-    LifeCycle List
-    <table>
-        <tr>
-            <td>ID</td>
-            <td>Display Name</td>
-        </tr>
-    $for i in lifecycle:
-        <tr>
-            <td>$i[0]</td>
-            <td>$i[1]</td>
-        </tr>
-    </table>
-</div>
-
-<div style="height:190px">
-    Target Version List
-    <table>
-        <tr>
-            <td>ID</td>
-            <td>Display Name</td>
-        </tr>
-    $for i in targetversion:
         <tr>
             <td>$i[0]</td>
             <td>$i[1]</td>
@@ -142,13 +112,43 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
 </div>
 
 <div>
-    DeliverySites List
+    LifeCycle List
     <table>
         <tr>
             <td>ID</td>
             <td>Display Name</td>
         </tr>
-    $for i in deliverysites:
+    $for i in lifecycle:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    Target Version List
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Display Name</td>
+        </tr>
+    $for i in targetversion:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="width:580px">
+    CSS Cost Allocation
+    <table>
+        <tr>
+            <td>Code</td>
+            <td>LOB + NAME</td>
+        </tr>
+    $for i in costallocation:
         <tr>
             <td>$i[0]</td>
             <td>$i[1]</td>
@@ -171,20 +171,7 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
     </table>
 </div>
 
-<div style="width:580px">
-    CSS Cost Allocation
-    <table>
-        <tr>
-            <td>Code</td>
-            <td>LOB + NAME</td>
-        </tr>
-    $for i in costallocation:
-        <tr>
-            <td>$i[0]</td>
-            <td>$i[1]</td>
-        </tr>
-    </table>
-</div>
+
 
 
 
