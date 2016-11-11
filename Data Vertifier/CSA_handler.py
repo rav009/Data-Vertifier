@@ -2,6 +2,7 @@ __author__ = 'v-rewei'
 import web
 import main
 import DAO.DimDAO
+import DAO.TestQueryDAO
 
 class CSADim:
     def GET(self):
@@ -17,3 +18,16 @@ class CSADim:
         supporttype = dimdao.LoadSupportType()
         costallocation = dimdao.LoadCSSCostAllocation()
         return main.render_plain.csadim(measures, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource,supporttype, costallocation)
+
+class CSAQueryTest:
+    def GET(self):
+        return main.render_plain.testquery([])
+
+    def POST(self):
+        dao = DAO.TestQueryDAO.TestQueryDAO(main.connstr_csa)
+        data = web.input()
+        if data['keyword']:
+            qs = dao.LoadTestQuery(str(data['keyword']))
+            return main.render_plain.testquery(qs)
+        else:
+            return main.render_plain.testquery([])

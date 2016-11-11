@@ -200,7 +200,7 @@ class GetJobStatus:
 class BatchExec:
     def __init__(self):
         self.connstrlist = [
-            ['v-rewei-pc(backend package dev environment,NO QUERYDB,NO TEMP)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
+            #['v-rewei-pc(backend package dev environment,NO QUERYDB,NO TEMP)','Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=master;Integrated Security=SSPI;'],
             ['shlab-ossbi(frontend UI dev environment,NO StagingDB,NO TEMP)','Provider=SQLOLEDB.1;data source=shlab-ossbi;initial catalog=master;Integrated Security=SSPI;'],
             ['AZMSSGBSPDB02(staging environment,NO TEMP)','Provider=SQLOLEDB.1;data source=AZMSSGBSPDB02;initial catalog=master;Integrated Security=SSPI;'],
             ['gbs-cosmos-us(product)','Provider=SQLOLEDB.1;data source=gbs-cosmos-us;initial catalog=master;Integrated Security=SSPI;'],

@@ -38,7 +38,8 @@ urls = (
     '/getjobstatus/', 'CDP_handler.GetJobStatus',
     '/batchexec/', 'CDP_handler.BatchExec',
     '/backupsql/', 'CDP_handler.BackupSQL',
-    '/csadim/', 'CSA_handler.CSADim'
+    '/csadim/', 'CSA_handler.CSADim',
+    '/querytest/', 'CSA_handler.CSAQueryTest'
 )
 
 connstr_d = 'Provider=SQLOLEDB.1;data source=v-rewei-pc;initial catalog=GBS_StagingDB;Integrated Security=SSPI;'
