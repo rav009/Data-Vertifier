@@ -9,14 +9,14 @@ $def with (qs)
 $if len(qs)>0:
     $for q in qs:
         <div style="margin:20px 0px">
-        <div>ID: $q[0]                Name: $q[1]                Category: $q[2]</div>
+        <div>ID: $q[0]  <span style="margin:0px 25px;">Name: $q[1]</span>  Category: $q[2]</div>
         $for i in range(0,len(q))
             $if i<3:
                 $continue
             $else:
                 $if q[i]:
-                    $q[i].split('|')[1]
-                    <textarea rows="25" cols="150" style="margin:3px 5px"> $q[i].split('|')[0] </textarea>
+                    <p style="margin:0px 5px"> $q[i].split('|')[1]</p>
+                    <textarea rows="25" cols="150" style="margin:3px 5px">$q[i].split('|')[0] </textarea>
                     <br />
                     <br />
                 $else:

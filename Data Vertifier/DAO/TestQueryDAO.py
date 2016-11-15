@@ -9,8 +9,8 @@ class TestQueryDAO(DAO.SqlServerDAO.SqlServerDAO):
 
     def LoadTestQuery(self, keyword):
         sql = '''SELECT [ID]
-            ,[Category]
             ,[Name]
+            ,[Category]
             ,[QueryString1] +\'|\' +[ConnectString1]
             ,[QueryString2] +\'|\' +[ConnectString2]
             ,[QueryString3] +\'|\' +[ConnectString3]
