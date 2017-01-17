@@ -1,4 +1,4 @@
-$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, supporttype,  costallocation)
+$def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource, supporttype,  costallocation, fingeo)
 <title>CSA Dimensions List</title>
 
 <style>
@@ -19,7 +19,7 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
     }
 </style>
 
-<div style="width:580px">
+<div style="width:900px">
     Measure List
     <table>
         <tr>
@@ -171,6 +171,20 @@ $def with (ms, geos, products, customeraudience, cloudfilter, lifecycle, targetv
     </table>
 </div>
 
+<div>
+    Finance Geography
+    <table>
+        <tr>
+            <td>Code</td>
+            <td>FinanceGeoLevel4</td>
+        </tr>
+    $for i in fingeo:
+        <tr>
+            <td>$i[0]</td>
+            <td>$i[1]</td>
+        </tr>
+    </table>
+</div>
 
 
 

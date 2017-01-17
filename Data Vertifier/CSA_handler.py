@@ -17,7 +17,9 @@ class CSADim:
         datasource = dimdao.LoadDataSource()
         supporttype = dimdao.LoadSupportType()
         costallocation = dimdao.LoadCSSCostAllocation()
-        return main.render_plain.csadim(measures, geos, products, customeraudience, cloudfilter, lifecycle, targetversion, datasource,supporttype, costallocation)
+        fingeo = dimdao.LoadFinanceGeo()
+        return main.render_plain.csadim(measures, geos, products, customeraudience, cloudfilter, lifecycle,
+                                        targetversion, datasource, supporttype, costallocation, fingeo)
 
 class CSAQueryTest:
     def GET(self):

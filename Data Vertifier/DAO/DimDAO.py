@@ -152,3 +152,7 @@ class CSA_DimDAO(DimDAO):
     def LoadCSSCostAllocation(self):
         sql = 'SELECT [ID],[LOB]+\'/\'+[CSSTargetProduct]+\'/\'+[ProductFamilyName] as b FROM [CSA_DM].[dbo].[DimCSSCostAllocation]'
         return self.LoadData2Col(sql)
+
+    def LoadFinanceGeo(self):
+        sql = 'SELECT [Code],[FinanceGeoLevel4]  FROM [CSA_DM].[dbo].[DimFinanceGeography]'
+        return self.LoadData2Col(sql)
